@@ -466,7 +466,7 @@
                         // labelごとの経過時間を合計するためのオブジェクト
                         const labelDurations = {};
 
-                        // 各セグメントをループ処理
+                        // 話者分析各セグメントをループ処理
                         resultJson.segments.forEach(segment => {
                             segment.results.forEach(result => {
                             result.tokens.forEach(token => {
@@ -488,7 +488,7 @@
                                 colorB = 200;
 
                             }
-                            console.log (starttime, y, duration, 10, colorR, colorG, colorB); // (x, y, width, height, colorR, colorG, colorB);
+                            // console.log (starttime, y, duration, 10, colorR, colorG, colorB); // (x, y, width, height, colorR, colorG, colorB);
                             sendData(label,starttime, endtime);
                             
                             
@@ -506,6 +506,23 @@
                         // 集計結果を出力
                         console.log("Labelごとの経過時間の合計:", labelDurations);
                         
+
+                        // 各セグメントをループ処理
+                        resultJson.sentiment_analysis.segments.forEach(segments => {
+                    
+                            const { starttime, endtime, energy, stress, concentration } = segments;
+                        
+                            console.log (starttime, endtime, energy, stress, concentration); // (x, y, width, height, colorR, colorG, colorB);
+                            sendSentData(starttime, endtime, energy, stress, concentration);
+                            
+                        });
+                       
+
+
+
+
+
+
                        
 
                       // グラフを書くhtmlにリダイレクト
@@ -644,9 +661,43 @@
             })();
 
             //追加コード
+          // sendSentData関数定義
+          function sendSentData(starttime, endtime, energy, stress, concentration) {
+    console.log("sendSentData開始");
+
+    const data = new URLSearchParams({
+        starttime: starttime,
+        endtime: endtime,
+        energy: energy,
+        stress: stress,
+        concentration: concentration
+    });
+
+    fetch("sendSentData.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: data
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === "success") {
+            console.log("データ送信成功:", result.message);
+        } else {
+            console.error("エラー:", result.message);
+        }
+    })
+    .catch(error => {
+        console.error("通信エラー:", error);
+    });
+}
+
+        
+            //追加コード
           // sendData関数定義
           function sendData(label,starttime, endtime) {
-    console.log("sendData開始");
+    // console.log("sendData開始");
 
     const data = new URLSearchParams({
         label: label,
@@ -673,8 +724,6 @@
         console.error("通信エラー:", error);
     });
 }
-
-        
 
 
 
