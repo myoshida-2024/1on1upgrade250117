@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// JSONレスポンスのContent-Type設定
+header('Content-Type: application/json; charset=UTF-8');
+
 // エラーレポートの設定
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -30,10 +33,13 @@ if (isset($_POST['label'], $_POST['starttime'], $_POST['endtime'])) {
     // SQL実行と結果チェック
     if ($stmt->execute()) {
         echo json_encode(["status" => "success", "message" => "データが正常に登録されました"]);
+        exit;
     } else {
         $error = $stmt->errorInfo();
         echo json_encode(["status" => "error", "message" => "SQLエラー: " . $error[2]]);
+        exit;
     }
 } else {
     echo json_encode(["status" => "error", "message" => "必要なデータが送信されていません"]);
+    exit;
 }

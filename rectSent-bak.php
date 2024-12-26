@@ -15,7 +15,7 @@
 </head>
 <body>
     <!-- キャンバスとスライダー -->
-    <canvas id="myCanvas" width="800" height="100" style="border:1px solid #000000;"></canvas>
+    <canvas id="myCanvas" width="800" height="300" style="border:1px solid #000000;"></canvas>
     <input type="range" id="slider" min="<?php echo $firstX; ?>" max="5000" value="<?php echo $firstX; ?>" style="width: 800px;" />
 
     <?php
@@ -24,7 +24,7 @@
     $pdo = db_conn();
 
     // データベースから情報を取得
-    $sql = "SELECT starttime, endtime, energy, stress FROM sentiment_result";
+    $sql = "SELECT starttime, endtime, energy, stress, concentration FROM sentiment_result";
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,16 +54,16 @@
         const slider = document.getElementById('slider');
         // const rate = 0.02;
 
-        const maxCanvasWidth = 800; // キャンバスの幅
-        const maxDataValue = 8000; // データの最大値を仮定
-        const maxCanvasHeight = 100;
-        const maxEnergyValue = 30; // y 軸のエネルギー、ストレス最大値
+        const maxCanvasWidth = 800;
+      const maxCanvasHeight = 100; // 1つのグラフの高さ
+      const maxDataValue = 80000; // x 軸のデータ最大値
+      const maxValue = 100; // energy,stress,concentration の最大値
 
-        // x 軸のスケーリング係数
-        const xScale = maxCanvasWidth / maxDataValue;
-        const yScale = maxCanvasHeight / maxEnergyValue;
+      const xScale = maxCanvasWidth / maxDataValue;
+      const yScale = maxCanvasHeight / maxValue;
 
-        // 四角形を描画する関数
+
+        // 四角形を描画する関数(energy用)
         function drawRectangle_energy(starttime, endtime, energy) {
             console.log("drawRectangle_energy");
             console.log(starttime, endtime, (-1) * energy);
@@ -73,31 +73,79 @@
             const scaledheight = energy * yScale; // エネルギーを高さとして使用
 
             console.log("Scaled values:", scaledStart, scaledEnd, scaledheight);
-
+            ctx3.fillStyle = "orange";
             ctx3.fillRect(scaledStart, maxCanvasHeight, scaledEnd - scaledStart, (-1) * scaledheight);
             
         }
  
-        // 四角形を再描画する関数
-        function redrawRectangles_energy(offset) {
-          console.log("redrawRectangles_energy called with offset:", offset); // 呼び出しを確認
+        // 四角形を描画する関数(stress用)
+        function drawRectangle_stress(starttime, endtime, stress) {
+            console.log("drawRectangle_stress");
+            console.log(starttime, endtime, (-1) * stress);
 
+            const scaledStart = starttime * xScale; // スケーリングされた開始位置
+            const scaledEnd = endtime * xScale; // スケーリングされた終了位置
+            const scaledheight = stress * yScale; // ストレスを高さとして使用
+
+            console.log("Scaled values:", scaledStart, scaledEnd, scaledheight);
+            ctx3.fillStyle = "gray";
+            ctx3.fillRect(scaledStart, maxCanvasHeight *2 , scaledEnd - scaledStart, (-1) * scaledheight);
+            
+        }
+
+          // 四角形を描画する関数(concentration用)
+         function drawRectangle_concentration(starttime,endtime, concentration) {
+            console.log("drawRectangle_concentration");
+            console.log(starttime, endtime, (-1) * concentration);
+
+            const scaledStart = starttime * xScale; // スケーリングされた開始位置
+            const scaledEnd = endtime * xScale; // スケーリングされた終了位置
+            const scaledheight = concentration * yScale; // 集中を高さとして使用
+
+            console.log("Scaled values:", scaledStart, scaledEnd, scaledheight);
+            ctx3.fillStyle = "blue";
+            ctx3.fillRect(scaledStart, maxCanvasHeight *3 , scaledEnd - scaledStart, (-1) * scaledheight);
+            
+        }
+
+        // 四角形を再描画する関数
+        function redrawRectangles(offset) {
+          console.log("redrawRectangles called with offset:", offset); // 呼び出しを確認
             ctx3.clearRect(0, 0, canvas.width, canvas.height); // キャンバスのクリア
+            
+            // energyのグラフを再描画
             rectangleData.forEach(item => {
                 const { starttime, endtime, energy } = item;
-                console.log ("redrawRectangles_energy");
+                console.log ("redrawRectangles");
                 console.log ((starttime * xScale) - offset, (endtime * xScale) - offset, energy);
-                drawRectangle_energy((starttime * xScale) - offset, (endtime * xScale) - offset, energy);
+                const validEnergy = energy !== undefined && energy !== null ? energy : 0; // デフォルト値0
+                drawRectangle_energy(starttime - offset, endtime - offset, validEnergy);
+                // drawRectangle_energy((starttime * xScale) - offset, (endtime * xScale) - offset, energy);
+            });
+            //stressのグラフを再描画
+            rectangleData.forEach(item => {
+                const { starttime, endtime, stress } = item;
+                const validStress = stress !== undefined && stress !== null ? stress : 0; // デフォルト値0
+                drawRectangle_stress(starttime - offset, endtime - offset, validStress);
+                // drawRectangle_energy((starttime * xScale) - offset, (endtime * xScale) - offset, energy);
+            });
+
+            //concentrationのグラフを再描画
+            rectangleData.forEach(item => {
+                const { starttime, endtime, concentration } = item;
+                const validconcentration = concentration !== undefined && concentration !== null ? concentration : 0; // デフォルト値0
+                drawRectangle_concentration(starttime - offset, endtime - offset, validconcentration);
+                // drawRectangle_energy((starttime * xScale) - offset, (endtime * xScale) - offset, energy);
             });
         }
 
         // 初期描画
-        redrawRectangles_energy(firstX);
+        redrawRectangles(firstX);
 
         // スライダーのイベントリスナー
         slider.addEventListener('input', (event) => {
             const offset = event.target.value;
-            redrawRectangles_energy(offset);
+            redrawRectangles(offset);
         });
     </script>
 </body>

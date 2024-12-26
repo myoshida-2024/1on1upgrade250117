@@ -13,6 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
     <script src="rect.js"></script>
+    <link rel="icon" href="/forest-people.sakura.ne.jp/favicon.ico" type="image/x-icon">
     <style>
         * {
             font-family: 'Hiragino Kaku Gothic ProN', 'Helvetica', 'Verdana', 'Lucida Grande', 'ヒラギノ角ゴ ProN', sans-serif;
@@ -460,7 +461,7 @@
                     // resultJsonの処理（ここに546行目以降のコードを移動）
  // 追加コード
                         
- console.log("488行目に到達"); // この行が表示されるか確認
+ console.log("463行目に到達"); // この行が表示されるか確認
                         console.log("resultJson:", resultJson); // resultJsonの内容を確認
                         
                         // labelごとの経過時間を合計するためのオブジェクト
@@ -471,40 +472,16 @@
                             segment.results.forEach(result => {
                             result.tokens.forEach(token => {
                             const { label, starttime, endtime } = token;
-                            const duration = endtime - starttime;
-        
-
-                        // 時間グラフを書く準備でDBにデータを書く
-                            if (label == "speaker0") {
-                                y = 50;
-                                colorR = 200;
-                                colorG = 0;
-                                colorB = 0;
-
-                            } else if (label == "speaker1") {
-                                y = 200;
-                                colorR = 0;
-                                colorG = 0;
-                                colorB = 200;
-
-                            }
-                            // console.log (starttime, y, duration, 10, colorR, colorG, colorB); // (x, y, width, height, colorR, colorG, colorB);
+                                                   
+                            console.log (label, starttime, endtime); // (x, y, width, height, colorR, colorG, colorB);
                             sendData(label,starttime, endtime);
                             
                             
                             // drawRectangle(starttime, y, duration, 10, colorR, colorG, colorB); // (x, y, width, height, colorR, colorG, colorB) 
 
-                        // labelごとに経過時間を合計
-                        if (label in labelDurations) {
-                            labelDurations[label] += duration;
-                        } else {
-                            labelDurations[label] = duration;
-                        }
                         });
                         });
                         });
-                        // 集計結果を出力
-                        console.log("Labelごとの経過時間の合計:", labelDurations);
                         
 
                         // 各セグメントをループ処理
@@ -680,10 +657,12 @@
         },
         body: data
     })
-    .then(response => response.json())
+    .then(response => response.text()) //一時的に.text()に変更
+    // .then(response => response.json())
     .then(result => {
+        console.log("レスポンス内容：", result); //レスポンス内容の確認
         if (result.status === "success") {
-            console.log("データ送信成功:", result.message);
+            console.log("sendSentDataデータ送信成功:", result.message);
         } else {
             console.error("エラー:", result.message);
         }
@@ -697,7 +676,7 @@
             //追加コード
           // sendData関数定義
           function sendData(label,starttime, endtime) {
-    // console.log("sendData開始");
+    console.log("sendData開始");
 
     const data = new URLSearchParams({
         label: label,
@@ -715,7 +694,7 @@
     .then(response => response.json())
     .then(result => {
         if (result.status === "success") {
-            console.log("データ送信成功:", result.message);
+            console.log("sendDataデータ送信成功:", result.message);
         } else {
             console.error("エラー:", result.message);
         }
