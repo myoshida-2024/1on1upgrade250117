@@ -80,19 +80,19 @@
 
             // 四角形を描画する関数(speaker用)
             function drawSpeaker(label, starttime, endtime) {
-            console.log("drawSpeaker");
+            
             const scaledStart = starttime * xScale; // スケーリングされた開始位置
             const scaledEnd = endtime * xScale; // スケーリングされた終了位置
             const scaledheight = speakerH * yScale; // 高さは定数
 
-            console.log("Scaled values:", scaledStart, scaledEnd, scaledheight);
+    
             if (label == "speaker0"){
                 ctx3.fillStyle = "red";
-                console.log(label, starttime, endtime);
+                
                 ctx3.fillRect(scaledStart, maxCanvasHeight, scaledEnd - scaledStart, scaledheight);
             } else {
                 ctx3.fillStyle = "blue";
-                console.log(label, starttime, endtime);
+                
                 ctx3.fillRect(scaledStart, maxCanvasHeight*2, scaledEnd - scaledStart, scaledheight);
             }
             
@@ -101,9 +101,7 @@
 
         // 四角形を描画する関数(energy用)
         function drawRectangle_energy(starttime, endtime, energy) {
-            console.log("drawRectangle_energy");
-            console.log(starttime, endtime, (-1) * energy);
-
+            
             const scaledStart = starttime * xScale; // スケーリングされた開始位置
             const scaledEnd = endtime * xScale; // スケーリングされた終了位置
             const scaledheight = energy * yScale; // エネルギーを高さとして使用
@@ -140,13 +138,11 @@
 
         // 四角形を再描画する関数
         function redrawRectangles(offset) {
-          console.log("redrawRectangles called with offset:", offset); // 呼び出しを確認
+          
             ctx3.clearRect(0, 0, canvas.width, canvas.height); // キャンバスのクリア
             // speakerのグラフを再描画
             speakerData.forEach(item => {
                 const { label, starttime, endtime } = item;
-                console.log ("redrawSpeaker");
-                console.log (label, (starttime * xScale) - offset, (endtime * xScale) - offset);
                 drawSpeaker(label, starttime - offset, endtime - offset);   
             });
             // energyのグラフを再描画
