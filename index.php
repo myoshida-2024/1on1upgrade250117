@@ -473,7 +473,6 @@
                             result.tokens.forEach(token => {
                             const { label, starttime, endtime } = token;
                                                    
-                            console.log (label, starttime, endtime); // (x, y, width, height, colorR, colorG, colorB);
                             sendData(label,starttime, endtime);
                             
                             
@@ -489,18 +488,11 @@
                     
                             const { starttime, endtime, energy, stress, concentration } = segments;
                         
-                            console.log (starttime, endtime, energy, stress, concentration); // (x, y, width, height, colorR, colorG, colorB);
                             sendSentData(starttime, endtime, energy, stress, concentration);
                             
                         });
                        
-
-
-
-
-
-
-                       
+                 
 
                       // グラフを書くhtmlにリダイレクト
                         
@@ -640,7 +632,6 @@
             //追加コード
           // sendSentData関数定義
           function sendSentData(starttime, endtime, energy, stress, concentration) {
-    console.log("sendSentData開始");
 
     const data = new URLSearchParams({
         starttime: starttime,
@@ -676,7 +667,6 @@
             //追加コード
           // sendData関数定義
           function sendData(label,starttime, endtime) {
-    console.log("sendData開始");
 
     const data = new URLSearchParams({
         label: label,
