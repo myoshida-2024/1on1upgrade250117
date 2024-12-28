@@ -115,22 +115,27 @@ for (let i = 0; i < resultMatrix.length - 1; i++) {
 }
 console.log(`合計の間隔時間: ${totalGapTime}`);
 
-  const ctx = document.getElementById("myPieChart").getContext("2d");
-  const myPieChart = new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: ["Speaker 0", "Speaker 1", "Silence"],
-      datasets: [
-        {
-          backgroundColor: ["red", "blue", "lightgray"],
-          data: [speaker1Time, speaker1Time, totalGapTime], // サンプルデータ
-        },
-      ],
-    },
-    options: {},
-  });
-</script>
+// クエリパラメータ付きURLを作成
+$url = "pie.html?speaker0Time=$speaker0Time&speaker1Time=$speaker1Time&totalGapTime=$totalGapTime";
 
+// リダイレクト
+header("Location: $url");
+exit;
+
+//   const ctx = document.getElementById("myPieChart").getContext("2d");
+//   const myPieChart = new Chart(ctx, {
+    // type: "pie",
+    // data: {
+    //   labels: ["Speaker 0", "Speaker 1", "Silence"],
+    //   datasets: [
+        // {
+        //   backgroundColor: ["red", "blue", "lightgray"],
+        //   data: [speaker1Time, speaker1Time, totalGapTime], // サンプルデータ
+        // },
+    //   ],
+    // },
+    // options: {},
+//   });
 
         // キャンバスの設定
         const canvas = document.getElementById('myCanvas');
@@ -208,7 +213,7 @@ console.log(`合計の間隔時間: ${totalGapTime}`);
         // 四角形を再描画する関数
         function redrawRectangles(offset) {
           
-            ctx3.clearRect(0, 0, canvas.width, canvas.height); // キャンバスのクリア
+            // ctx3.clearRect(0, 0, canvas.width, canvas.height); // キャンバスのクリア
             // speakerのグラフを再描画
             speakerData.forEach(item => {
                 const { label, starttime, endtime } = item;
@@ -246,6 +251,6 @@ console.log(`合計の間隔時間: ${totalGapTime}`);
             const offset = event.target.value;
             redrawRectangles(offset);
         });
-    </scrip>
+    </>
 </body>
 </html>

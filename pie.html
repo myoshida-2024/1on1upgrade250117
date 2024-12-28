@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Pie Charts</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <style>
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        canvas {
+            width: 45%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>円グラフ</h1>
+    <div class="chart-container">
+        <canvas id="chartWithGap"></canvas>
+        <canvas id="chartWithoutGap"></canvas>
+    </div>
+
+    <script>
+        // クエリパラメータからデータを取得
+        const params = new URLSearchParams(window.location.search);
+        const speaker0Time = parseInt(params.get("speaker0Time"), 10) || 0;
+        const speaker1Time = parseInt(params.get("speaker1Time"), 10) || 0;
+        const totalGapTime = parseInt(params.get("totalGapTime"), 10) || 0;
+
+        console.log("Speaker0:", speaker0Time, "Speaker1:", speaker1Time, "Silence:", totalGapTime);
+
+        // 円グラフ1: totalGapTime含む
+        const ctxWithGap = document.getElementById("chartWithGap").getContext("2d");
+        new Chart(ctxWithGap, {
+            type: "pie",
+            data: {
+                labels: ["Speaker 0", "Speaker 1", "Silence"],
+                datasets: [
+                    {
+                        backgroundColor: ["red", "blue", "lightgray"],
+                        data: [speaker0Time, speaker1Time, totalGapTime],
+                    },
+                ],
+            },
+            options: {},
+        });
+
+        // 円グラフ2: totalGapTime含まない
+        const ctxWithoutGap = document.getElementById("chartWithoutGap").getContext("2d");
+        new Chart(ctxWithoutGap, {
+            type: "pie",
+            data: {
+                labels: ["Speaker 0", "Speaker 1"],
+                datasets: [
+                    {
+                        backgroundColor: ["red", "blue"],
+                        data: [speaker0Time, speaker1Time],
+                    },
+                ],
+            },
+            options: {},
+        });
+    </script>
+</body>
+</html>
