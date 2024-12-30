@@ -1,0 +1,57 @@
+
+#start-screen {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: skyblue;
+    padding-top: 20px; 
+}
+
+#game-title {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+#new-button {
+    font-size: 2em;
+    padding: 10px 20px;
+    animation: blink 1.5s infinite;
+}
+
+#show-button {
+    font-size: 2em;
+    padding: 10px 20px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#new-button:hover {
+    transform: scale(1.1);
+}
+
+#show-button:hover {
+    transform: scale(1.1);
+}
+
+#new-screen {
+    padding: 20px;
+}
+
+#show-screen {
+    padding: 20px;
+}
+
+#initial-message img {
+    width: 200px;
+    margin-top: 20px;
+}
+
+

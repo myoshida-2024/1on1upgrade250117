@@ -1,0 +1,232 @@
+body{
+    margin:0;
+    padding:0;
+    text-align:left;
+    font-size: 32px;
+}
+header{
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+main{
+    border-bottom:1px solid #ccc;
+    position:relative;
+}
+footer{
+    background-color: #fff;
+    border-bottom:1px solid #ccc;
+    text-align: center;
+}
+p{
+    font-size: 60px;
+    text-align: center;
+    border-bottom:1px solid #fff;
+    height:100px;
+}
+ul{
+    padding: 0;
+    border-top: 1px solid #000000;
+    display:table;  /* 定義 */
+    table-layout: fixed;
+    width:250px;
+}
+#save{
+    list-style-type:none;
+    border: 1px solid #666;
+    background-color: #FFF;
+    display:table-cell;  /* 定義 */
+    cursor: pointer;
+}
+
+#clear{
+    list-style-type:none;
+    border: 1px solid #666;
+    background-color: #FFF;
+    display:table-cell;  /* 定義 */
+    cursor: pointer;
+}
+
+#show{
+    list-style-type:none;
+    width : 200px;
+    border: 1px solid #666;
+    background-color: #FFF;
+    display:table-cell;  /* 定義 */
+    cursor: pointer;
+}
+
+textarea{
+  margin: 3%;
+  width: 50%;
+  height: 50px;
+  font-size:80%;
+  box-shadow: 3px 3px 3px 3px #555;
+}
+
+/* 背景画像の読み込み */
+.layer-bg {
+    background-image: url("../img/restaurant-button.jpg");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 100%;
+    height: 100px;
+  }
+  
+  /* 重ねる文字の基本設定 */
+  .layer-txt {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    /* color: #993333; */
+    color:white;
+    letter-spacing: 0.4rem;
+    font-size: 32px;
+    font-family: fantasy;
+  }
+
+  .image-button {
+	border: solid 1px gray;
+	
+	border-radius: 5px;
+	background: none;
+	background-repeat: no-repeat;
+	background-size: auto 85%;
+	background-position: center center;
+	width: 30px;
+	height: 30px;
+	
+	text-align: left;	/* テキストは左寄せ */
+	text-indent: 30px;	/* インデントを使用して画像分余白を開ける */
+}
+
+.image-button:hover {
+	background-color: lavender;
+	background-size: auto 90%;
+}
+.image-button:active {
+	background-color: #DFDFF9;
+	background-size: auto 80%;
+}
+
+.image-button-text {
+	background-position: center left 5px;	/* 上下中央/左から5pxの位置 */
+}
+
+.small-text {
+    font-size:12px;
+    font-weight:normal;
+    color:#4A5568;
+}
+
+.input-small {
+    font-size: 12px;
+    padding: 8px;
+
+}
+
+::placeholder {
+    text-align: left;
+}
+
+/* 星関連 */
+/* 
+   .rating { 
+    direction: rtl;
+    unicode-bidi : bidi-override;
+    display: flex;
+    justify-content: flex-start;
+  }
+    */
+
+    .rating { 
+      display: flex;
+      justify-content: flex-start;
+      flex-direction:row-reverse;
+      margin-left: 0;
+    }
+
+  .rating input {
+    display: none;
+  }
+
+/* 
+  .rating label::before {
+    content: "★";
+    font-size: 2em;
+    color: #ddd;
+}
+   */
+  .rating label {
+    font-size: 2em;
+    color: #ddd;
+    cursor: pointer;
+    font-family:  Arial, sans-serif;
+  }
+
+  
+  .rating input:checked ~ label {
+    color: #f5b301;
+  }
+
+  .rating label:hover,
+  .rating label:hover ~ label {
+    color: #f5b301;
+  }
+
+  .grid-item {
+    background-color: white;
+    padding: 2px;
+    text-align: left;
+    font-size: medium;
+    
+  }
+  
+  .grid-container2 {
+    display: grid;
+    grid-template-columns: 120px auto;
+    grid-template-rows: 50px 50px 50px 50px 50px;
+    /* 2列のグリッド */
+    gap: 0px;
+    /* グリッドアイテム間の隙間 */
+    padding: 5px;
+  }
+  
+  .grid-item2 {
+    background-color: white;
+    padding: 2px;
+    text-align: start;
+    
+  }
+
+  
+.grid-container {
+    display: grid;
+    /* grid-template-columns: 150px  500px; */
+    grid-template-columns: 150px  1fr;
+    /* 2列のグリッド */
+    gap: 0px;
+    /* グリッドアイテム間の隙間 */
+    padding: 5px;
+    margin-top:50px;
+  }
+
+  .layer {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  #saveButton {
+    background-color: #4CAF50; /* ボタンの背景色（緑） */
+    color: white; /* テキストの色（白） */
+    height: 30px;
+    padding: 5px 32px; /* パディング：上・下15px、左・右32px */
+    font-size: 16px; /* フォントサイズ */
+    font-family: 'Arial', sans-serif; /* フォントファミリー */
+    border: none; /* ボーダーを削除 */
+    border-radius: 8px; /* ボタンの角を丸くする */
+    cursor: pointer; /* カーソルをポインタにする */
+    transition: background-color 0.3s ease; /* 背景色変更時のアニメーション */
+    margin-bottom: 50px;
+  }
+  
