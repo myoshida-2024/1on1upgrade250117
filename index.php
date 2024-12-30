@@ -86,14 +86,14 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 <!-- <td><label for="keepFillerToken">フィラー単語(言い淀み)を認識結果に含める</label></td> -->
                 <!-- <td><input type="checkbox" id="keepFillerToken"></td> -->
             <!-- </tr> -->
-            <tr>
-                <td><label for="speakerDiarization">話者ダイアライゼーションを有効にする</label></td>
-                <td><input type="checkbox" id="speakerDiarization" checked></td>
-            </tr>
-            <tr>
-                <td><label for="sentimentAnalysis">感情解析を有効にする(非同期HTTP音声認識APIのみ)</label></td>
-                <td><input type="checkbox" id="sentimentAnalysis" checked></td>
-            </tr>
+            <!-- <tr> -->
+                <!-- <td><label for="speakerDiarization">話者ダイアライゼーションを有効にする</label></td> -->
+                <!-- <td><input type="checkbox" id="speakerDiarization" checked></td> -->
+            <!-- </tr> -->
+            <!-- <tr> -->
+                <!-- <td><label for="sentimentAnalysis">感情解析を有効にする(非同期HTTP音声認識APIのみ)</label></td> -->
+                <!-- <td><input type="checkbox" id="sentimentAnalysis" checked></td> -->
+            <!-- </tr> -->
             <!-- <tr> -->
                 <!-- <td><label for="profileWords">ユーザー登録単語</label></td> -->
                 <!-- <td><input type="text" id="profileWords" -->
@@ -107,29 +107,29 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 <!-- <td><label for="useDisplayMedia">システムの音声を認識する(WebSocket音声認識API用)</label></td> -->
                 <!-- <td><input type="checkbox" id="useDisplayMedia"></td> -->
             <!-- </tr> -->
-            <tr>
-                <td><label for="useOpusRecorder">音声データをサーバーに送信する前にOgg Opus形式に圧縮する</label></td>
-                <td><input type="checkbox" id="useOpusRecorder"></td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <div style="font-size: smaller; margin-left: 20px;">
-                        <div>Ogg Opus形式への圧縮には下記のプログラムを使用しています。</div>
-                        <div>
-                            Opus Recorder License (MIT)<br>
-                            Original Work Copyright © 2013 Matt Diamond<br>
-                            Modified Work Copyright © 2014 Christopher Rudmin<br>
+            <!-- <tr> -->
+                <!-- <td><label for="useOpusRecorder">音声データをサーバーに送信する前にOgg Opus形式に圧縮する</label></td> -->
+                <!-- <td><input type="checkbox" id="useOpusRecorder"></td> -->
+            <!-- </tr> -->
+            <!-- <tr> -->
+                <!-- <td colspan="2"> -->
+                    <!-- <div style="font-size: smaller; margin-left: 20px;"> -->
+                        <!-- <div>Ogg Opus形式への圧縮には下記のプログラムを使用しています。</div> -->
+                        <!-- <div> -->
+                            <!-- Opus Recorder License (MIT)<br> -->
+                            <!-- Original Work Copyright © 2013 Matt Diamond<br> -->
+                            <!-- Modified Work Copyright © 2014 Christopher Rudmin<br> -->
                             <!-- <a href="https://github.com/chris-rudmin/opus-recorder/blob/v8.0.5/LICENSE.md" -->
                             <!-- <a href="./LICENSE.md" -->
                                 <!-- target="_blank" -->
                                 <!-- rel="noopener noreferrer">https://github.com/chris-rudmin/opus-recorder/blob/v8.0.5/LICENSE.md</a>                            --> --> -->
-                                <a href="./LICENSE.md"
-                                target="_blank"
-                                rel="noopener noreferrer">LICENSE.mdを開く</a> 
-                        </div>
-                    </div>
-                </td>
-            </tr>
+                                <!-- <a href="./LICENSE.md" -->
+                                <!-- target="blank" -->
+                                <!-- rel="noopener noreferrer">LICENSE.mdを開く</a>  -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                <!-- </td> -->
+            <!-- </tr> -->
         </tbody>
     </table>
     <div>
@@ -154,12 +154,15 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 const engineModeElement = document.getElementById("engineMode");
                 // const loggingOptOutElement = document.getElementById("loggingOptOut");
                 // const keepFillerTokenElement = document.getElementById("keepFillerToken");
-                const speakerDiarizationElement = document.getElementById("speakerDiarization");
-                const sentimentAnalysisElement = document.getElementById("sentimentAnalysis");
-                // const profileWordsElement = document.getElementById("profileWords");
+                // const speakerDiarizationElement = document.getElementById("speakerDiarization");
+                // const sentimentAnalysisElement = document.getElementById("sentimentAnalysis");
+                const speakerDiarizationElement = true;
+                const sentimentAnalysisElement = true;
+               // const profileWordsElement = document.getElementById("profileWords");
                 // const useUserMediaElement = document.getElementById("useUserMedia");
                 // const useDisplayMediaElement = document.getElementById("useDisplayMedia");
-                const useOpusRecorderElement = document.getElementById("useOpusRecorder");
+                // const useOpusRecorderElement = document.getElementById("useOpusRecorder");
+                const useOpusRecorderElement = false;
 
                 const executeAsyncButtonElement = document.getElementById("executeAsyncButton");
                 const startWrpButtonElement = document.getElementById("startWrpButton");
@@ -269,8 +272,10 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     asyncHrp.engineMode = engineModeElement.value;
                     // asyncHrp.loggingOptOut = loggingOptOutElement.checked;
                     // asyncHrp.keepFillerToken = keepFillerTokenElement.checked;
-                    asyncHrp.speakerDiarization = speakerDiarizationElement.checked;
-                    asyncHrp.sentimentAnalysis = sentimentAnalysisElement.checked;
+                    // asyncHrp.speakerDiarization = speakerDiarizationElement.checked;
+                    // asyncHrp.sentimentAnalysis = sentimentAnalysisElement.checked;
+                    asyncHrp.speakerDiarization = true;
+                    asyncHrp.sentimentAnalysis = true;
                     // asyncHrp.profileWords = profileWordsElement.value.trim();
 
                     postJob(APP_KEY, selectedFile, asyncHrp);
