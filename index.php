@@ -94,11 +94,11 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 <td><label for="sentimentAnalysis">感情解析を有効にする(非同期HTTP音声認識APIのみ)</label></td>
                 <td><input type="checkbox" id="sentimentAnalysis"></td>
             </tr>
-            <tr>
-                <td><label for="profileWords">ユーザー登録単語</label></td>
-                <td><input type="text" id="profileWords"
-                        title="{表記1}{半角スペース}{読み1}|{表記2}{半角スペース}{読み2}のように指定します。例:AmiVoice あみぼいす|猫 きかい"></td>
-            </tr>
+            <!-- <tr> -->
+                <!-- <td><label for="profileWords">ユーザー登録単語</label></td> -->
+                <!-- <td><input type="text" id="profileWords" -->
+                        <!-- title="{表記1}{半角スペース}{読み1}|{表記2}{半角スペース}{読み2}のように指定します。例:AmiVoice あみぼいす|猫 きかい"></td> -->
+            <!-- </tr> -->
             <tr>
                 <td><label for="useUserMedia">マイクの音声を認識する(WebSocket音声認識API用)</label></td>
                 <td><input type="checkbox" id="useUserMedia" checked></td>
@@ -156,7 +156,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 // const keepFillerTokenElement = document.getElementById("keepFillerToken");
                 const speakerDiarizationElement = document.getElementById("speakerDiarization");
                 const sentimentAnalysisElement = document.getElementById("sentimentAnalysis");
-                const profileWordsElement = document.getElementById("profileWords");
+                // const profileWordsElement = document.getElementById("profileWords");
                 const useUserMediaElement = document.getElementById("useUserMedia");
                 const useDisplayMediaElement = document.getElementById("useDisplayMedia");
                 const useOpusRecorderElement = document.getElementById("useOpusRecorder");
@@ -271,7 +271,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     // asyncHrp.keepFillerToken = keepFillerTokenElement.checked;
                     asyncHrp.speakerDiarization = speakerDiarizationElement.checked;
                     asyncHrp.sentimentAnalysis = sentimentAnalysisElement.checked;
-                    asyncHrp.profileWords = profileWordsElement.value.trim();
+                    // asyncHrp.profileWords = profileWordsElement.value.trim();
 
                     postJob(APP_KEY, selectedFile, asyncHrp);
                 });
@@ -304,7 +304,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     // easyHrp.loggingOptOut = loggingOptOutElement.checked;
                     // easyHrp.keepFillerToken = keepFillerTokenElement.checked;
                     easyHrp.speakerDiarization = speakerDiarizationElement.checked;
-                    easyHrp.profileWords = profileWordsElement.value.trim();
+                    // easyHrp.profileWords = profileWordsElement.value.trim();
 
                     postJob(APP_KEY, selectedFile, easyHrp);
                 });
@@ -391,7 +391,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     Wrp.grammarFileNames = engineModeElement.value;
                     Wrp.authorization = APP_KEY;
 
-                    Wrp.profileWords = profileWordsElement.value.trim();
+                    // Wrp.profileWords = profileWordsElement.value.trim();
                     // Wrp.keepFillerToken = keepFillerTokenElement.checked ? 1 : 0;
                     Wrp.resultUpdatedInterval = 1000;
                     Wrp.checkIntervalTime = 600000;
