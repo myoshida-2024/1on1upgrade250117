@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -33,14 +34,26 @@
         }
     </style>
 </head>
+<?php
+// Composer のオートローダーを読み込む
+require_once __DIR__ . '/vendor/autoload.php';
 
+use Dotenv\Dotenv;
+
+// .envがあるディレクトリパスを指定（例: __DIR__ が .env と同じ階層ならこれでOK）
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+$appKey = $_ENV['APPKEY'] ?? '';
+
+// これ以降 $_ENV['APPKEY'] で値を取得可能
+?>
 <body>
     <table>
         <tbody>
-            <tr>
-                <td><label for="appKey">APPKEY</label></td>
-                <td><input id="appKey" type="password"><br></td>
-            </tr>
+            <!-- <tr> -->
+                <!-- <td><label for="appKey">APPKEY</label></td> -->
+                <!-- <td><input id="appKey" type="password"><br></td> -->
+            <!-- </tr> -->
             <tr>
                 <td><label for="audioFile">音声ファイル</label></td>
                 <td><input id="audioFile" type="file" accept=".wav,.mp3,.flac,.opus,.m4a,.mp4,.webm"></td>
@@ -135,9 +148,11 @@
             <textarea id="logs" readonly></textarea>
         </div>
         <script>
+            const APP_KEY = "<?php echo htmlspecialchars($appKey, ENT_QUOTES, 'UTF-8'); ?>";
             console.log("137スクリプトが読み込まれました");
             (function () {
-                const appKeyElement = document.getElementById("appKey");
+                // const appKeyElement = document.getElementById("appKey");
+                
                 const audioFileElement = document.getElementById("audioFile");
                 const audioInfoElement = document.getElementById("audioInfo");
                 const engineModeElement = document.getElementById("engineMode");
@@ -230,7 +245,7 @@
 
                 // 非同期HTTP音声認識APIの実行
                 executeAsyncButtonElement.addEventListener("click", function (event) {
-                    if (appKeyElement.value.length === 0) {
+                    if (APP_KEY.length === 0) {
                         alert("APPKEYを入力してください。");
                         return;
                     }
@@ -262,12 +277,12 @@
                     asyncHrp.sentimentAnalysis = sentimentAnalysisElement.checked;
                     asyncHrp.profileWords = profileWordsElement.value.trim();
 
-                    postJob(appKeyElement.value, selectedFile, asyncHrp);
+                    postJob(APP_KEY, selectedFile, asyncHrp);
                 });
 
                 // 同期HTTP音声認識APIの実行
                 executeHrpButtonElement.addEventListener("click", function (event) {
-                    if (appKeyElement.value.length === 0) {
+                    if (APP_KEY.length === 0) {
                         alert("APPKEYを入力してください。");
                         return;
                     }
@@ -295,12 +310,14 @@
                     easyHrp.speakerDiarization = speakerDiarizationElement.checked;
                     easyHrp.profileWords = profileWordsElement.value.trim();
 
-                    postJob(appKeyElement.value, selectedFile, easyHrp);
+                    postJob(APP_KEY, selectedFile, easyHrp);
                 });
 
                 /**
                  * 非同期/同期 HTTP音声認識API を実行します。
-                 * @param {string} appKey APPKEY
+                //  * @param {string} appKey APPKEY
+                 * @param {string} appKey $_ENV['APPKEY']
+                 * 
                  * @param {File} audioFile 音声ファイル
                  * @param {object} recognizerClient AsyncHrp/EasyHrpオブジェクト
                  */
@@ -378,7 +395,7 @@
                         Wrp.serverURL += "nolog/";
                     }
                     Wrp.grammarFileNames = engineModeElement.value;
-                    Wrp.authorization = appKeyElement.value;
+                    Wrp.authorization = APP_KEY;
 
                     Wrp.profileWords = profileWordsElement.value.trim();
                     Wrp.keepFillerToken = keepFillerTokenElement.checked ? 1 : 0;
