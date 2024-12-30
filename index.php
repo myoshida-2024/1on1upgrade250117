@@ -135,7 +135,9 @@ $appKey = $_ENV['APPKEY'] ?? '';
     <div>
         <!-- <a href="player.html" rel="noopener noreferrer" target="_blank">音声プレイヤーを開く</a> -->
         <div>
-            <button id="executeAsyncButton">非同期HTTP音声認識API実行(音声ファイル)</button><br>
+            <!-- <button id="executeAsyncButton">非同期HTTP音声認識API実行(音声ファイル)</button><br> -->
+            <button id="executeAsyncButton">1 on 1分析開始</button><br>
+            
             <!-- <button id="startWrpButton">WebSocket音声認識API開始(マイク or システム)</button> -->
             <!-- <button id="stopWrpButton">WebSocket音声認識API停止</button><br> -->
             <!-- <button id="executeHrpButton">同期HTTP音声認識API実行(短い音声ファイル)</button> -->
