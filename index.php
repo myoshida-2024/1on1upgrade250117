@@ -99,10 +99,10 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 <!-- <td><input type="text" id="profileWords" -->
                         <!-- title="{表記1}{半角スペース}{読み1}|{表記2}{半角スペース}{読み2}のように指定します。例:AmiVoice あみぼいす|猫 きかい"></td> -->
             <!-- </tr> -->
-            <tr>
-                <td><label for="useUserMedia">マイクの音声を認識する(WebSocket音声認識API用)</label></td>
-                <td><input type="checkbox" id="useUserMedia" checked></td>
-            </tr>
+            <!-- <tr> -->
+                <!-- <td><label for="useUserMedia">マイクの音声を認識する(WebSocket音声認識API用)</label></td> -->
+                <!-- <td><input type="checkbox" id="useUserMedia" checked></td> -->
+            <!-- </tr> -->
             <tr>
                 <td><label for="useDisplayMedia">システムの音声を認識する(WebSocket音声認識API用)</label></td>
                 <td><input type="checkbox" id="useDisplayMedia"></td>
@@ -157,7 +157,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 const speakerDiarizationElement = document.getElementById("speakerDiarization");
                 const sentimentAnalysisElement = document.getElementById("sentimentAnalysis");
                 // const profileWordsElement = document.getElementById("profileWords");
-                const useUserMediaElement = document.getElementById("useUserMedia");
+                // const useUserMediaElement = document.getElementById("useUserMedia");
                 const useDisplayMediaElement = document.getElementById("useDisplayMedia");
                 const useOpusRecorderElement = document.getElementById("useOpusRecorder");
 
@@ -402,7 +402,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     Recorder.downSampling = true;
                     Recorder.adpcmPacking = true;
                     Recorder.useOpusRecorder = useOpusRecorderElement.checked;
-                    Recorder.useUserMedia = useUserMediaElement.checked;
+                    // Recorder.useUserMedia = useUserMediaElement.checked;
                     Recorder.useDisplayMedia = useDisplayMediaElement.checked;
 
                     Wrp.TRACE = function (message) {
