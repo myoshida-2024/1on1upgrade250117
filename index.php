@@ -169,9 +169,9 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 const useOpusRecorderElement = false;
 
                 const executeAsyncButtonElement = document.getElementById("executeAsyncButton");
-                const startWrpButtonElement = document.getElementById("startWrpButton");
-                const stopWrpButtonElement = document.getElementById("stopWrpButton");
-                const executeHrpButtonElement = document.getElementById("executeHrpButton");
+                // const startWrpButtonElement = document.getElementById("startWrpButton");
+                // const stopWrpButtonElement = document.getElementById("stopWrpButton");
+                // const executeHrpButtonElement = document.getElementById("executeHrpButton");
 
                 const logsElement = document.getElementById("logs");
 
@@ -286,40 +286,8 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     postJob(APP_KEY, selectedFile, asyncHrp);
                 });
 
-                // 同期HTTP音声認識APIの実行
-                executeHrpButtonElement.addEventListener("click", function (event) {
-                    if (APP_KEY.length === 0) {
-                        alert("APPKEYを入力してください。");
-                        return;
-                    }
-                    if (audioFileElement.files.length === 0) {
-                        alert("音声ファイルを選択してください。");
-                        return;
-                    }
-                    const selectedFile = audioFileElement.files[0];
-                    if (!(/\.(?:wav|mp3|flac|opus|m4a|mp4|webm)$/i.test(selectedFile.name))) {
-                        alert(".wav,.mp3,.flac,.opus,m4a,.mp4,.webmファイルを選択してください。");
-                        return;
-                    }
-                    addLog("同期HTTP音声認識API実行。");
-                    const easyHrp = new EasyHrp();
-                    easyHrp.onError = function (message, sessionId) {
-                        addLog((sessionId != null ? "[" + sessionId + "]" : "") + message);
-                    };
-                    easyHrp.onCompleted = function (resultJson, sessionId) {
-                        addLog(resultJson.text);
-                        drawResultView(resultJson, selectedFile);
-                    };
-                    // easyHrp.engineMode = engineModeElement.value;
-                    easyHrp.engineMode = "-a-general";
-                    // easyHrp.loggingOptOut = loggingOptOutElement.checked;
-                    // easyHrp.keepFillerToken = keepFillerTokenElement.checked;
-                    easyHrp.speakerDiarization = speakerDiarizationElement.checked;
-                    // easyHrp.profileWords = profileWordsElement.value.trim();
-
-                    postJob(APP_KEY, selectedFile, easyHrp);
-                });
-
+                // 同期HTTP音声認識APIの実行 消す
+    
                 /**
                  * 非同期/同期 HTTP音声認識API を実行します。
                 //  * @param {string} appKey APPKEY
@@ -391,81 +359,9 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     reader.readAsArrayBuffer(audioFile);
                 }
 
-                // WebSocket音声認識APIの実行
-                startWrpButtonElement.addEventListener("click", function (event) {
-                    if (Wrp.isActive()) {
-                        return;
-                    }
-                    let resultJson = [];
-                    Wrp.serverURL = "wss://acp-api.amivoice.com/v1/";
-                   
-                    // Wrp.grammarFileNames = engineModeElement.value;
-                    Wrp.grammarFileNames = "-a-general";
-                    Wrp.authorization = APP_KEY;
+                // WebSocket音声認識APIの実行 消した
 
-                    // Wrp.profileWords = profileWordsElement.value.trim();
-                    // Wrp.keepFillerToken = keepFillerTokenElement.checked ? 1 : 0;
-                    Wrp.resultUpdatedInterval = 1000;
-                    Wrp.checkIntervalTime = 600000;
-                    Wrp.segmenterProperties = speakerDiarizationElement.checked ? "useDiarizer=1" : "";
-
-                    Recorder.maxRecordingTime = 3600000;
-                    Recorder.sampleRate = 16000;
-                    Recorder.downSampling = true;
-                    Recorder.adpcmPacking = true;
-                    Recorder.useOpusRecorder = useOpusRecorderElement.checked;
-                    // Recorder.useUserMedia = useUserMediaElement.checked;
-                    // Recorder.useDisplayMedia = useDisplayMediaElement.checked;
-
-                    Wrp.TRACE = function (message) {
-                        if (message.startsWith("ERROR:")) {
-                            addLog("WebSocket: " + message);
-                        }
-                    };
-                    Wrp.connectStarted = function () {
-                        addLog("WebSocket: 音声認識サーバー接続中...");
-                    };
-                    Wrp.connectEnded = function () {
-                        addLog("WebSocket: 音声認識サーバー接続完了(音声認識準備完了)。");
-                    };
-                    Wrp.disconnectStarted = function () {
-                        addLog("WebSocket: 音声認識サーバー切断中...");
-                    };
-                    Wrp.disconnectEnded = function () {
-                        addLog("WebSocket: 音声認識サーバー切断完了。");
-                    };
-                    Wrp.resultUpdated = function (result) {
-                        const resultJsonPart = JSON.parse(result);
-
-                        // resultを出力する 追加したコード
-                        resultJsonPart.segments.forEach(segment => {
-                        console.log(`Text: ${segment.text}, Speaker: ${segment.label}, 
-                                    Confidence: ${segment.confidence},  start: ${segment.start}, end: ${segment.end},`);
-                        });
-
-                        addLog(resultJsonPart.text);
-                    };
-                    Wrp.resultFinalized = function (result) {
-                        const resultJsonPart = JSON.parse(result);
-                        addLog(resultJsonPart.text);
-                        resultJson.push(resultJsonPart);
-                    };
-                    Wrp.feedDataPauseEnded = function () {
-                        const blob = Recorder.getWaveFile();
-                        if (!blob) {
-                            return;
-                        }
-                        drawResultView(resultJson, blob);
-                    };
-                    Wrp.feedDataResume();
-                });
-                // WebSocket音声認識APIの停止
-                stopWrpButtonElement.addEventListener("click", function (event) {
-                    if (!Wrp.isActive()) {
-                        return;
-                    }
-                    Wrp.feedDataPause();
-                });
+                // WebSocket音声認識APIの停止 消した               
 
                 /**
                  * 認識結果JSONから画面(HTML要素)を構築します
