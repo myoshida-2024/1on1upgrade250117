@@ -88,11 +88,11 @@ $appKey = $_ENV['APPKEY'] ?? '';
             <!-- </tr> -->
             <tr>
                 <td><label for="speakerDiarization">話者ダイアライゼーションを有効にする</label></td>
-                <td><input type="checkbox" id="speakerDiarization"></td>
+                <td><input type="checkbox" id="speakerDiarization" checked></td>
             </tr>
             <tr>
                 <td><label for="sentimentAnalysis">感情解析を有効にする(非同期HTTP音声認識APIのみ)</label></td>
-                <td><input type="checkbox" id="sentimentAnalysis"></td>
+                <td><input type="checkbox" id="sentimentAnalysis" checked></td>
             </tr>
             <!-- <tr> -->
                 <!-- <td><label for="profileWords">ユーザー登録単語</label></td> -->
@@ -109,7 +109,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
             <!-- </tr> -->
             <tr>
                 <td><label for="useOpusRecorder">音声データをサーバーに送信する前にOgg Opus形式に圧縮する</label></td>
-                <td><input type="checkbox" id="useOpusRecorder" checked></td>
+                <td><input type="checkbox" id="useOpusRecorder"></td>
             </tr>
             <tr>
                 <td colspan="2">
