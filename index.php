@@ -50,11 +50,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
 <body>
     <table>
         <tbody>
-            <!-- <tr> -->
-                <!-- <td><label for="appKey">APPKEY</label></td> -->
-                <!-- <td><input id="appKey" type="password"><br></td> -->
-            <!-- </tr> -->
-            <tr>
+                        <tr>
                 <td><label for="audioFile">音声ファイル</label></td>
                 <td><input id="audioFile" type="file" accept=".wav,.mp3,.flac,.opus,.m4a,.mp4,.webm"></td>
             </tr>
@@ -67,29 +63,29 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 <td>
                     <select name="engineMode" id="engineMode">
                         <option value="-a-general">会話_汎用</option>
-                        <option value="-a-general-input">音声入力_汎用</option>
-                        <option value="-a-medgeneral">会話_医療</option>
-                        <option value="-a-medgeneral-input">音声入力_医療</option>
-                        <option value="-a-bizmrreport">会話_製薬</option>
-                        <option value="-a-bizmrreport-input">音声入力_製薬</option>
-                        <option value="-a-medkarte-input">音声入力_電子カルテ</option>
-                        <option value="-a-bizinsurance">会話_保険</option>
-                        <option value="-a-bizinsurance-input">音声入力_保険</option>
-                        <option value="-a-bizfinance">会話_金融</option>
-                        <option value="-a-bizfinance-input">音声入力_金融</option>
-                        <option value="-a-general-en">英語_汎用</option>
-                        <option value="-a-general-zh">中国語_汎用</option>
+                        <!-- <option value="-a-general-input">音声入力_汎用</option> -->
+                        <!-- <option value="-a-medgeneral">会話_医療</option> -->
+                        <!-- <option value="-a-medgeneral-input">音声入力_医療</option> -->
+                        <!-- <option value="-a-bizmrreport">会話_製薬</option> -->
+                        <!-- <option value="-a-bizmrreport-input">音声入力_製薬</option> -->
+                        <!-- <option value="-a-medkarte-input">音声入力_電子カルテ</option> -->
+                        <!-- <option value="-a-bizinsurance">会話_保険</option> -->
+                        <!-- <option value="-a-bizinsurance-input">音声入力_保険</option> -->
+                        <!-- <option value="-a-bizfinance">会話_金融</option> -->
+                        <!-- <option value="-a-bizfinance-input">音声入力_金融</option> -->
+                        <!-- <option value="-a-general-en">英語_汎用</option> -->
+                        <!-- <option value="-a-general-zh">中国語_汎用</option> -->
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td><label for="loggingOptOut">サービス向上のための音声と認識結果の提供を行わない(ログ保存なし)</label></td>
-                <td><input type="checkbox" id="loggingOptOut" checked></td>
-            </tr>
-            <tr>
-                <td><label for="keepFillerToken">フィラー単語(言い淀み)を認識結果に含める</label></td>
-                <td><input type="checkbox" id="keepFillerToken"></td>
-            </tr>
+            <!-- <tr> -->
+                <!-- <td><label for="loggingOptOut">サービス向上のための音声と認識結果の提供を行わない(ログ保存なし)</label></td> -->
+                <!-- <td><input type="checkbox" id="loggingOptOut" checked></td> -->
+            <!-- </tr> -->
+            <!-- <tr> -->
+                <!-- <td><label for="keepFillerToken">フィラー単語(言い淀み)を認識結果に含める</label></td> -->
+                <!-- <td><input type="checkbox" id="keepFillerToken"></td> -->
+            <!-- </tr> -->
             <tr>
                 <td><label for="speakerDiarization">話者ダイアライゼーションを有効にする</label></td>
                 <td><input type="checkbox" id="speakerDiarization"></td>
@@ -156,8 +152,8 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 const audioFileElement = document.getElementById("audioFile");
                 const audioInfoElement = document.getElementById("audioInfo");
                 const engineModeElement = document.getElementById("engineMode");
-                const loggingOptOutElement = document.getElementById("loggingOptOut");
-                const keepFillerTokenElement = document.getElementById("keepFillerToken");
+                // const loggingOptOutElement = document.getElementById("loggingOptOut");
+                // const keepFillerTokenElement = document.getElementById("keepFillerToken");
                 const speakerDiarizationElement = document.getElementById("speakerDiarization");
                 const sentimentAnalysisElement = document.getElementById("sentimentAnalysis");
                 const profileWordsElement = document.getElementById("profileWords");
@@ -271,8 +267,8 @@ $appKey = $_ENV['APPKEY'] ?? '';
                         drawResultView(resultJson, selectedFile);
                     };
                     asyncHrp.engineMode = engineModeElement.value;
-                    asyncHrp.loggingOptOut = loggingOptOutElement.checked;
-                    asyncHrp.keepFillerToken = keepFillerTokenElement.checked;
+                    // asyncHrp.loggingOptOut = loggingOptOutElement.checked;
+                    // asyncHrp.keepFillerToken = keepFillerTokenElement.checked;
                     asyncHrp.speakerDiarization = speakerDiarizationElement.checked;
                     asyncHrp.sentimentAnalysis = sentimentAnalysisElement.checked;
                     asyncHrp.profileWords = profileWordsElement.value.trim();
@@ -305,8 +301,8 @@ $appKey = $_ENV['APPKEY'] ?? '';
                         drawResultView(resultJson, selectedFile);
                     };
                     easyHrp.engineMode = engineModeElement.value;
-                    easyHrp.loggingOptOut = loggingOptOutElement.checked;
-                    easyHrp.keepFillerToken = keepFillerTokenElement.checked;
+                    // easyHrp.loggingOptOut = loggingOptOutElement.checked;
+                    // easyHrp.keepFillerToken = keepFillerTokenElement.checked;
                     easyHrp.speakerDiarization = speakerDiarizationElement.checked;
                     easyHrp.profileWords = profileWordsElement.value.trim();
 
@@ -391,14 +387,12 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     }
                     let resultJson = [];
                     Wrp.serverURL = "wss://acp-api.amivoice.com/v1/";
-                    if (loggingOptOutElement.checked) {
-                        Wrp.serverURL += "nolog/";
-                    }
+                   
                     Wrp.grammarFileNames = engineModeElement.value;
                     Wrp.authorization = APP_KEY;
 
                     Wrp.profileWords = profileWordsElement.value.trim();
-                    Wrp.keepFillerToken = keepFillerTokenElement.checked ? 1 : 0;
+                    // Wrp.keepFillerToken = keepFillerTokenElement.checked ? 1 : 0;
                     Wrp.resultUpdatedInterval = 1000;
                     Wrp.checkIntervalTime = 600000;
                     Wrp.segmenterProperties = speakerDiarizationElement.checked ? "useDiarizer=1" : "";
