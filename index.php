@@ -58,11 +58,11 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 <td><span>音声ファイルのオーディオ情報</span></td>
                 <td><span id="audioInfo"></span></td>
             </tr>
-            <tr>
-                <td><label for="engineMode">接続エンジン</label></td>
-                <td>
-                    <select name="engineMode" id="engineMode">
-                        <option value="-a-general">会話_汎用</option>
+            <!-- <tr> -->
+                <!-- <td><label for="engineMode">接続エンジン</label></td> -->
+                <!-- <td> -->
+                    <!-- <select name="engineMode" id="engineMode"> -->
+                        <!-- <option value="-a-general">会話_汎用</option> -->
                         <!-- <option value="-a-general-input">音声入力_汎用</option> -->
                         <!-- <option value="-a-medgeneral">会話_医療</option> -->
                         <!-- <option value="-a-medgeneral-input">音声入力_医療</option> -->
@@ -75,9 +75,9 @@ $appKey = $_ENV['APPKEY'] ?? '';
                         <!-- <option value="-a-bizfinance-input">音声入力_金融</option> -->
                         <!-- <option value="-a-general-en">英語_汎用</option> -->
                         <!-- <option value="-a-general-zh">中国語_汎用</option> -->
-                    </select>
-                </td>
-            </tr>
+                    <!-- </select> -->
+                <!-- </td> -->
+            <!-- </tr> -->
             <!-- <tr> -->
                 <!-- <td><label for="loggingOptOut">サービス向上のための音声と認識結果の提供を行わない(ログ保存なし)</label></td> -->
                 <!-- <td><input type="checkbox" id="loggingOptOut" checked></td> -->
@@ -151,7 +151,9 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 
                 const audioFileElement = document.getElementById("audioFile");
                 const audioInfoElement = document.getElementById("audioInfo");
-                const engineModeElement = document.getElementById("engineMode");
+                // const engineModeElement = document.getElementById("engineMode");
+                const engineModeElement = "-a-general";
+                
                 // const loggingOptOutElement = document.getElementById("loggingOptOut");
                 // const keepFillerTokenElement = document.getElementById("keepFillerToken");
                 // const speakerDiarizationElement = document.getElementById("speakerDiarization");
@@ -269,7 +271,8 @@ $appKey = $_ENV['APPKEY'] ?? '';
                         // addLog(resultJson.text);
                         drawResultView(resultJson, selectedFile);
                     };
-                    asyncHrp.engineMode = engineModeElement.value;
+                    // asyncHrp.engineMode = engineModeElement.value;
+                    asyncHrp.engineMode = "-a-general";
                     // asyncHrp.loggingOptOut = loggingOptOutElement.checked;
                     // asyncHrp.keepFillerToken = keepFillerTokenElement.checked;
                     // asyncHrp.speakerDiarization = speakerDiarizationElement.checked;
@@ -305,7 +308,8 @@ $appKey = $_ENV['APPKEY'] ?? '';
                         addLog(resultJson.text);
                         drawResultView(resultJson, selectedFile);
                     };
-                    easyHrp.engineMode = engineModeElement.value;
+                    // easyHrp.engineMode = engineModeElement.value;
+                    easyHrp.engineMode = "-a-general";
                     // easyHrp.loggingOptOut = loggingOptOutElement.checked;
                     // easyHrp.keepFillerToken = keepFillerTokenElement.checked;
                     easyHrp.speakerDiarization = speakerDiarizationElement.checked;
@@ -393,7 +397,8 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     let resultJson = [];
                     Wrp.serverURL = "wss://acp-api.amivoice.com/v1/";
                    
-                    Wrp.grammarFileNames = engineModeElement.value;
+                    // Wrp.grammarFileNames = engineModeElement.value;
+                    Wrp.grammarFileNames = "-a-general";
                     Wrp.authorization = APP_KEY;
 
                     // Wrp.profileWords = profileWordsElement.value.trim();
