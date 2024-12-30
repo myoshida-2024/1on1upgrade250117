@@ -103,10 +103,10 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 <!-- <td><label for="useUserMedia">マイクの音声を認識する(WebSocket音声認識API用)</label></td> -->
                 <!-- <td><input type="checkbox" id="useUserMedia" checked></td> -->
             <!-- </tr> -->
-            <tr>
-                <td><label for="useDisplayMedia">システムの音声を認識する(WebSocket音声認識API用)</label></td>
-                <td><input type="checkbox" id="useDisplayMedia"></td>
-            </tr>
+            <!-- <tr> -->
+                <!-- <td><label for="useDisplayMedia">システムの音声を認識する(WebSocket音声認識API用)</label></td> -->
+                <!-- <td><input type="checkbox" id="useDisplayMedia"></td> -->
+            <!-- </tr> -->
             <tr>
                 <td><label for="useOpusRecorder">音声データをサーバーに送信する前にOgg Opus形式に圧縮する</label></td>
                 <td><input type="checkbox" id="useOpusRecorder" checked></td>
@@ -158,7 +158,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                 const sentimentAnalysisElement = document.getElementById("sentimentAnalysis");
                 // const profileWordsElement = document.getElementById("profileWords");
                 // const useUserMediaElement = document.getElementById("useUserMedia");
-                const useDisplayMediaElement = document.getElementById("useDisplayMedia");
+                // const useDisplayMediaElement = document.getElementById("useDisplayMedia");
                 const useOpusRecorderElement = document.getElementById("useOpusRecorder");
 
                 const executeAsyncButtonElement = document.getElementById("executeAsyncButton");
@@ -403,7 +403,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     Recorder.adpcmPacking = true;
                     Recorder.useOpusRecorder = useOpusRecorderElement.checked;
                     // Recorder.useUserMedia = useUserMediaElement.checked;
-                    Recorder.useDisplayMedia = useDisplayMediaElement.checked;
+                    // Recorder.useDisplayMedia = useDisplayMediaElement.checked;
 
                     Wrp.TRACE = function (message) {
                         if (message.startsWith("ERROR:")) {
