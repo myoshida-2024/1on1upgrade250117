@@ -570,9 +570,10 @@ $appKey = $_ENV['APPKEY'] ?? '';
     .then(response => response.text()) //一時的に.text()に変更
     // .then(response => response.json())
     .then(result => {
-        console.log("レスポンス内容：", result); //レスポンス内容の確認
-        if (result.status === "success") {
-            console.log("sendSentDataデータ送信成功:", result.message);
+        // console.log("レスポンス内容：", result); //レスポンス内容の確認
+        // if (result.status === "success") {
+        if (result.includes("success")) {
+            // console.log("sendSentDataデータ送信成功:", result.message);
         } else {
             console.error("エラー:", result.message);
         }

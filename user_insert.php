@@ -32,3 +32,4 @@ if ($status == false) {
 } else {
     redirect("login.php");
 }
+?>
