@@ -5,6 +5,7 @@ session_start();
 //POST値
 $lid = $_POST["lid"]; //lid
 $lpw = $_POST["lpw"]; //lpw
+$action = $_POST['action'];
 
 //1.  DB接続します
 include("funcs.php");
@@ -37,14 +38,23 @@ if($pw){
   $_SESSION["lid"]  = $val['lid'];
 
   //Login成功時（select.phpへ）
-  redirect("index.php");
-
+  // ボタンの値でリダイレクト先を振り分け
+  if($action === "analysis_start"){
+    // 「分析開始」ボタン
+    redirect("index.php");
+  } elseif($action === "analysis_result"){
+    // 「分析結果確認」ボタン
+    redirect("graph.php");
 }else{
   //Login失敗時(login.phpへ)
   redirect("login.php");
 
 }
-
+}else{
+   //=== ログイン失敗時 ===
+   redirect("login.php");
+}
 exit();
+
 ?>
 

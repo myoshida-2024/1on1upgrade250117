@@ -8,7 +8,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 既存の画像ファイルを指定
-    $filePath = 'img/advice3.png';
+    $filePath = 'img/advice2.png';
     $filename = basename($filePath); // ファイル名
     $fileData = file_get_contents($filePath); // ファイルのバイナリデータ
 

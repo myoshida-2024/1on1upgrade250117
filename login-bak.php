@@ -18,16 +18,15 @@
 <form name="form1" action="login_act.php" method="post">
 メールアドレス:<input type="text" name="lid">
 PW:<input type="password" name="lpw" autocomplete="current-password">
-</form>
-<br><br>
-<form style="margin-left: 100px;">
-<!-- ボタンごとに value を変える -->
-<button style="margin-right: 20px;" type="submit" name="action" value="analysis_start">分析開始 ログイン</button>
-<button type="submit" name="action" value="analysis_result">分析結果確認 ログイン</button>
 
-<!-- <input type="submit" value="ログイン"> -->
+<!-- ボタンごとに value を変える -->
+<button type="submit" name="action" value="analysis_start">分析開始</button>
+<button type="submit" name="action" value="analysis_result">分析結果確認</button>
+
+<input type="submit" value="ログイン">
+
 </form>
-<br><br>
+
 
 <form name="form1" action="user.php" method="post">
 <input type="submit" value="ユーザ登録">

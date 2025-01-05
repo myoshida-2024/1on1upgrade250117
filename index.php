@@ -377,10 +377,10 @@ $appKey = $_ENV['APPKEY'] ?? '';
                         console.error("resultJsonが未定義、または無効です。");
                         return;
                     }
-                    // resultJsonの処理（ここに546行目以降のコードを移動）
- // 追加コード
+                    
+                    // --- ①fetch の Promise を格納する配列を準備 ---
+                    const promises = [];
                         
- console.log("463行目に到達"); // この行が表示されるか確認
                         console.log("resultJson:", resultJson); // resultJsonの内容を確認
                         
                         // labelごとの経過時間を合計するためのオブジェクト
@@ -393,8 +393,9 @@ $appKey = $_ENV['APPKEY'] ?? '';
                             const { label, starttime, endtime } = token;
                                                    
                             sendData(label,starttime, endtime);
-                            
-                            
+                             // 新しく追加 sendData() を呼び出して「Promise」を返すようにして配列にpush
+                            promises.push(sendData(label, starttime, endtime));
+        
                             // drawRectangle(starttime, y, duration, 10, colorR, colorG, colorB); // (x, y, width, height, colorR, colorG, colorB) 
 
                         });
@@ -408,10 +409,35 @@ $appKey = $_ENV['APPKEY'] ?? '';
                             const { starttime, endtime, energy, stress, concentration } = segments;
                         
                             sendSentData(starttime, endtime, energy, stress, concentration);
-                            
+                             // 新しく追加 sendSentData() を呼び出して「Promise」を返すようにして配列にpush
+                            promises.push(sendSentData(starttime, endtime, energy, stress, concentration));
+  
                         });
                        
                  
+
+            // 以下新しく追加 --- ④全fetchが完了したら sendMail.php を呼ぶ ---
+            Promise.all(promises)
+            .then(() => {
+            console.log("すべてのDB書き込みが完了しました。次にメール送信処理を呼び出します。");
+            return fetch("sendMail.php", {
+                method: "POST",
+                // 送るデータがあれば指定
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({ message: "DB書き込み完了" })
+            });
+            })
+            .then(response => response.text()) 
+            .then(result => {
+                console.log("sendMail.phpのレスポンス:", result);
+            // 必要に応じて画面遷移やアラート等の処理
+            // window.location.href = "somepage.php";
+            })
+            .catch(err => {
+                console.error("エラー発生:", err);
+            });
 
                       // グラフを書くhtmlにリダイレクト
                         
@@ -552,15 +578,16 @@ $appKey = $_ENV['APPKEY'] ?? '';
           // sendSentData関数定義
           function sendSentData(starttime, endtime, energy, stress, concentration) {
 
-    const data = new URLSearchParams({
-        starttime: starttime,
-        endtime: endtime,
-        energy: energy,
-        stress: stress,
-        concentration: concentration
-    });
+        const data = new URLSearchParams({
+            starttime: starttime,
+            endtime: endtime,
+            energy: energy,
+            stress: stress,
+            concentration: concentration
+        });
 
-    fetch("sendSentData.php", {
+        // 新しく変更 fetch() を return してPromiseを返す
+        return fetch("sendSentData.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -577,9 +604,11 @@ $appKey = $_ENV['APPKEY'] ?? '';
         } else {
             console.error("エラー:", result.message);
         }
+        return result; // 新しく追加 ここでreturnしておくとPromiseチェーンをつなげられる
     })
     .catch(error => {
         console.error("通信エラー:", error);
+        throw error; // 新しく追加 エラーを再スローするとPromise.allでcatchできる
     });
 }
 
@@ -588,13 +617,13 @@ $appKey = $_ENV['APPKEY'] ?? '';
           // sendData関数定義
           function sendData(label,starttime, endtime) {
 
-    const data = new URLSearchParams({
-        label: label,
-        starttime: starttime,
-        endtime: endtime
-    });
-
-    fetch("sendData.php", {
+        const data = new URLSearchParams({
+            label: label,
+            starttime: starttime,
+         endtime: endtime
+         });
+        // 新しく変更 fetch() を return してPromiseを返す
+        return fetch("sendData.php", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
@@ -608,9 +637,11 @@ $appKey = $_ENV['APPKEY'] ?? '';
         } else {
             console.error("エラー:", result.message);
         }
+        return result; // ここでreturnしておくとPromiseチェーンをつなげられる
     })
     .catch(error => {
         console.error("通信エラー:", error);
+        throw error; // エラーを再スローするとPromise.allでcatchできる
     });
 }
 

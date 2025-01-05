@@ -12,15 +12,16 @@ $subject = mb_encode_mimeheader("テスト送信", "UTF-8");
 $message = <<<EOT
 こんにちは。
 
-以下のリンクをクリックしてください。
-https://example.com/
+1on1 upgradeアプリの結果がでました。
 
-よろしくお願いします。
+以下のリンクをクリックして結果を見てみてください。
+https://forest-people.sakura.ne.jp/1on1upgrade/login.php
+
 EOT;
 
 // ヘッダ
-$from = "From: info@あなたのドメイン"; 
-$from .= "\nContent-Type: text/plain; charset=UTF-8";
+$from = "From: info@forest-people.sakura.ne.jp"; 
+// $from .= "\nContent-Type: text/plain; charset=UTF-8";
 
 // 送信
 if (mb_send_mail($to, $subject, $message, $from)) {
