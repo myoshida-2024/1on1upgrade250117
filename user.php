@@ -17,25 +17,24 @@ include "funcs.php";
 
 
 <body>
-exit;
 
 <!-- Head[Start] -->
-<header>
-    <?php echo $_SESSION["username"]; ?>さん　
-    <?php include("menu.php"); ?>
-</header>
+<!-- <header> -->
+    <!-- <?php echo $_SESSION["username"]; ?>さん　 -->
+    <!-- <?php include("menu.php"); ?> -->
+<!-- </header> -->
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
-<form method="post" action="/1on1upgrade/user_insert.php">
+<form method="post" action="user_insert.php">
   <div class="jumbotron">
    <fieldset>
     <legend>ユーザー登録</legend>
-     <label>名前：<input type="text" name="username"></label><br>
-     <label>Login ID：<input type="text" name="lid"></label><br>
-     <label>Login PW<input type="text" name="lpw"></label><br>
+     <label>名前：<input type="text" name="username" required></label><br>
+     <label>Login ID：<input type="text" name="lid" required></label><br>
+     <label>Login PW<input type="password" name="lpw" required></label><br>
      <label>管理FLG：
-      一般<input type="radio" name="kanri_flg" value="0">　
+      一般<input type="radio" name="kanri_flg" value="0" checked>　
       管理者<input type="radio" name="kanri_flg" value="1">
     </label>
     <br>
