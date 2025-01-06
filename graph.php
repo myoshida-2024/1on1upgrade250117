@@ -19,6 +19,7 @@
 </head>
 <body>
 <?php
+session_start();
 include("funcs.php");
 $pdo = db_conn();
 
@@ -52,6 +53,16 @@ foreach ($speakerResults as $i => $row) {
         }
     }
 }
+// セッションにデータを保存
+$_SESSION['speaker0Time'] = $speaker0Time;
+$_SESSION['speaker1Time'] = $speaker1Time;
+$_SESSION['totalGapTime'] = $totalGapTime;
+
+
+// advice.php にリダイレクト
+header("Location: advice.php");
+exit;
+
 // 話者分析データベースから情報を取得
 $sql = "SELECT label, starttime, endtime FROM speaker_result";
 $stmt = $pdo->prepare($sql);
@@ -195,11 +206,11 @@ function drawSpeaker(label, starttime, endtime) {
         }
 
         // 円グラフ2つを1つの画像に保存
-        saveCanvasAsImage("chartWithGap", "pie_chart_with_gap.png");
-        saveCanvasAsImage("chartWithoutGap", "pie_chart_without_gap.png");
+        saveCanvasAsImage("chartWithGap", "img/pie_chart_with_gap.png");
+        saveCanvasAsImage("chartWithoutGap", "img/pie_chart_without_gap.png");
 
         // 四角形グラフを1つの画像に保存
-        saveCanvasAsImage("rectangleChart", "rectangle_chart.png");
+        saveCanvasAsImage("rectangleChart", "img/rectangle_chart.png");
     });
 </script>
 </body>
