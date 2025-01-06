@@ -20,10 +20,16 @@
   </nav>
 </header>
 
+<?php
+session_start();
+// echo "login.php セッションID: " . session_id();
+?>
+
 <!-- lLOGIN login_act.php は認証処理用のPHPです。 -->
 <form action="login_act.php" method="post">
 <div>
     メールアドレス:<input type="text" name="lid" required>
+    <?php $_SESSION["lid"] = "lid";       ?>    // ログインID
   </div>
   <div>
     PW:<input type="password" name="lpw" autocomplete="current-password" required>

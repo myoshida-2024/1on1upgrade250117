@@ -1,9 +1,11 @@
 <?php
+session_start();
+echo "sendMail セッションID: " . session_id();
 // 文字化け対策（日本語メール）
 mb_internal_encoding("UTF-8");
 
-// 送信先アドレス
-$to = "yoshida-m@mva.biglobe.ne.jp";
+// メールアドレスを取得
+$to = $_SESSION["lid"];
 
 // 件名（日本語の場合はmb_encode_mimeheaderでエンコード推奨）
 $subject = mb_encode_mimeheader("テスト送信", "UTF-8");

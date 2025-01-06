@@ -35,6 +35,17 @@
     </style>
 </head>
 <?php
+session_start();
+// echo "index.php セッションID: " . session_id();
+
+$username = $_SESSION["username"] ;
+$lid = $_SESSION["lid"] ; 
+
+// ログイン中のユーザー情報を表示
+// echo htmlspecialchars($lid) . "さん、ようこそ！";
+?>
+
+<?php
 // Composer のオートローダーを読み込む
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -136,8 +147,24 @@ $appKey = $_ENV['APPKEY'] ?? '';
         <!-- <a href="player.html" rel="noopener noreferrer" target="_blank">音声プレイヤーを開く</a> -->
         <div>
             <!-- <button id="executeAsyncButton">非同期HTTP音声認識API実行(音声ファイル)</button><br> -->
-            <button id="executeAsyncButton">1 on 1分析開始</button><br>
+            <!-- <button id="executeAsyncButton">1 on 1分析開始</button><br> -->
             
+            <button id="executeAsyncButton">1 on 1分析開始</button><br>
+            <p id="message" style="display: none; color: green;">結果のメールをお待ちください。</p>
+            <a href="sendMail.php"></a>
+
+            <script>
+              // ボタンを取得
+            const button = document.getElementById('executeAsyncButton');
+            const message = document.getElementById('message');
+
+            // ボタンクリック時のイベントリスナーを追加
+            button.addEventListener('click', function() {
+            // メッセージを表示
+            message.style.display = 'block';
+            });
+            </script>
+
             <!-- <button id="startWrpButton">WebSocket音声認識API開始(マイク or システム)</button> -->
             <!-- <button id="stopWrpButton">WebSocket音声認識API停止</button><br> -->
             <!-- <button id="executeHrpButton">同期HTTP音声認識API実行(短い音声ファイル)</button> -->

@@ -1,6 +1,7 @@
 <?php
 //最初にSESSIONを開始！！ココ大事！！
 session_start();
+// echo "login_act セッションID: " . session_id();
 
 //POST値
 $lid = $_POST["lid"]; //lid
@@ -34,9 +35,10 @@ if($pw){
   //Login成功時
   $_SESSION["chk_ssid"]  = session_id();
   $_SESSION["kanri_flg"] = $val['kanri_flg'];
-  $_SESSION["username"]  = $val['username'];
-  $_SESSION["lid"]  = $val['lid'];
-
+  // $_SESSION["username"]  = $val['username'];
+  $_SESSION["username"]  = $username;
+  // $_SESSION["lid"]  = $val['lid'];
+  $_SESSION["lid"] = $lid; // メールアドレスをセッションに保存
   //Login成功時（select.phpへ）
   // ボタンの値でリダイレクト先を振り分け
   if($action === "analysis_start"){
