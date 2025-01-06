@@ -59,9 +59,8 @@ $_SESSION['speaker1Time'] = $speaker1Time;
 $_SESSION['totalGapTime'] = $totalGapTime;
 
 
-// advice.php にリダイレクト
-header("Location: advice.php");
-exit;
+// advice.php を呼び出して内容を表示
+include "advice.php";
 
 // 話者分析データベースから情報を取得
 $sql = "SELECT label, starttime, endtime FROM speaker_result";

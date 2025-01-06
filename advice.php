@@ -40,6 +40,23 @@
                 visibility: hidden;
             }
         }
+        .advice {
+        text-align: center; /* アドバイス全体を中央揃え */
+        }
+        .advice img {
+        display: block; /* 画像を中央揃え */
+        margin: 0 auto; /* 画像を中央揃え */
+        width: 300px;
+        height: auto;
+        margin-bottom: 10px; /* テキストとの間に余白 */
+        }
+        .advice-text {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            color: #333;
+            display: inline-block; /* テキストを中央揃えで囲む */
+        }
     </style>
 <body>
     <h1>Quiz</h1>
@@ -68,9 +85,13 @@
         <button type="button" onclick="checkAnswer()">回答する</button>
     </form>
 
+    <!-- クイズ結果表示エリア -->
     <div id="result" class="result"></div>
+    <!-- アドバイス表示エリア -->
+    <div id="advice" class="advice"></div>
+
     <?php
-session_start();
+// session_start();
 
 // セッションデータの取得
 $speaker0Time = $_SESSION['speaker0Time'] ?? 0;
@@ -84,7 +105,9 @@ $totalGapTime = $_SESSION['totalGapTime'] ?? 0;
 $speaker0ratio = $speaker0Time / ($speaker0Time + $speaker1Time)*100;
 
 ?>
+
     <script>
+        // 発声割合クイズ
         // PHPから$speaker0ratioを受け取る
         const speaker0ratio = <?php echo json_encode($speaker0ratio); ?>;
 
@@ -105,50 +128,56 @@ $speaker0ratio = $speaker0Time / ($speaker0Time + $speaker1Time)*100;
             const resultDiv = document.getElementById("result");
             if (speaker0ratio >= min && speaker0ratio <= max) {
                 
-                resultDiv.innerHTML = `正解！<br>あなたの話した割合は ${speaker0ratio.toFixed(2)}% です。<br>1on1 では上司の話す割合は20～40％がよいとされています。 `;
+                resultDiv.innerHTML = `正解！<br>あなたの話した割合は ${speaker0ratio.toFixed(2)}% です。<br>1on1 では上司の話す割合は<br>20～40％がよいとされています。 `;
                 resultDiv.classList.remove("blink");
                 resultDiv.style.color = "green";
             } else {
-                resultDiv.innerHTML = `はずれ！<br>あなたの話した割合は ${speaker0ratio.toFixed(2)}% です。<br>1on1 では上司の話す割合は20～40％がよいとされています。`;
+                resultDiv.innerHTML = `はずれ！<br>あなたの話した割合は ${speaker0ratio.toFixed(2)}% です。<br>1on1 では上司の話す割合は<br>20～40％がよいとされています。`;
                 resultDiv.classList.remove("blink");
                 resultDiv.style.color = "green";
             }
-        }
-    </script>
-</body>
-</html>
+       
+        // アドバイス表示
+        showAdvice(speaker0ratio);
+    }
 
-<?php
-
-// 発声割合クイズ
-
-
+    function showAdvice(ratio) {
+        const adviceDiv = document.getElementById("advice");
+        adviceDiv.innerHTML = ""; // 初期化
 
 // 発声割合アドバイス
-if ($speaker0ratio <= 40 & $speaker0ratio >= 20) {
-    echo '<div style="text-align: center;">';
-    echo '<img src="img/advice-good.jpg" alt="Good Advice" style="width: 300px; height: auto;"><br>';
-    echo '<div style="background-color: #f0f0f0; padding: 10px; margin-top: 10px; border-radius: 5px; color: #333;">';
-    echo '<strong>傾聴</strong><br>しっかり相手の話を聞けているようです。<br>これからも傾聴をつづけていきましょう。';
-    echo '</div>';
-    echo '</div>';
-} else if ($speaker0ratio > 40) {
-    echo '<div style="text-align: center;">';
-    echo '<img src="img/advice-bad.jpg" alt="Bad Advice" style="width: 300px; height: auto;"><br>';
-    echo '<div style="background-color: #f0f0f0; padding: 10px; margin-top: 10px; border-radius: 5px; color: #333;">';
-    echo '<strong>傾聴</strong><br>あなたが話している割合が多めです。<br>相手の話をゆっくり聞いてみましょう。';
-    echo '</div>';
-    echo '</div>';
-} else if ($speaker0ratio <20){
-    echo '<div style="text-align: center;">';
-    echo '<img src="img/advice-bad.jpg" alt="Bad Advice" style="width: 300px; height: auto;"><br>';
-    echo '<div style="background-color: #f0f0f0; padding: 10px; margin-top: 10px; border-radius: 5px; color: #333;">';
-    echo '<strong>質問</strong><br>あなたが話している割合がとても少ないようです。<br>関心をもって質問してみましょう。
-                 <br>また、アドバイスを求められたら経験を共有してみましょう。';
-    echo '</div>';
-    echo '</div>';
-}
+if (ratio >= 20 && ratio <= 40) {
+                adviceDiv.innerHTML = `
+                    <img src="img/advice-good.jpg" alt="Good Advice">
+                    <div class="advice-text">
+                        <strong>傾聴</strong><br>
+                        しっかり相手の話を聞けているようです。<br>
+                        これからも傾聴をつづけていきましょう。
+                    </div>
+                `;
+            } else if (ratio > 40) {
+                adviceDiv.innerHTML = `
+                    <img src="img/advice-bad.jpg" alt="Bad Advice">
+                    <div class="advice-text">
+                        <strong>傾聴</strong><br>
+                        あなたが話している割合が多めです。<br>
+                        相手の話をゆっくり聞いてみましょう。
+                    </div>
+                `;
+            } else if (ratio < 20) {
+                adviceDiv.innerHTML = `
+                    <img src="img/advice-bad.jpg" alt="Bad Advice">
+                    <div class="advice-text">
+                        <strong>質問</strong><br>
+                        あなたが話している割合がとても少ないようです。<br>
+                        関心をもって質問してみましょう。<br>
+                        また、アドバイスを求められたら経験を共有してみましょう。
+                    </div>
+                `;
+            }
+        }
 
+</script>
 
-?>
-
+</body>
+</html>
