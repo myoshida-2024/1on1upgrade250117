@@ -29,7 +29,7 @@ session_start();
 <form action="login_act.php" method="post">
 <div>
     メールアドレス:<input type="text" name="lid" required>
-    <?php $_SESSION["lid"] = "lid";       ?>    // ログインID
+    <?php $_SESSION["lid"] = "lid";       ?>   
   </div>
   <div>
     PW:<input type="password" name="lpw" autocomplete="current-password" required>

@@ -151,8 +151,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
             
             <button id="executeAsyncButton">1 on 1分析開始</button><br>
             <p id="message" style="display: none; color: green;">結果のメールをお待ちください。</p>
-            <a href="sendMail.php"></a>
-
+            
             <script>
               // ボタンを取得
             const button = document.getElementById('executeAsyncButton');
@@ -162,6 +161,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
             button.addEventListener('click', function() {
             // メッセージを表示
             message.style.display = 'block';
+
             });
             </script>
 

@@ -1,11 +1,11 @@
 <?php
 session_start();
-echo "sendMail セッションID: " . session_id();
 // 文字化け対策（日本語メール）
 mb_internal_encoding("UTF-8");
 
 // メールアドレスを取得
 $to = $_SESSION["lid"];
+echo "宛先アドレス". $to;
 
 // 件名（日本語の場合はmb_encode_mimeheaderでエンコード推奨）
 $subject = mb_encode_mimeheader("テスト送信", "UTF-8");
@@ -22,11 +22,15 @@ https://forest-people.sakura.ne.jp/1on1upgrade/login.php
 EOT;
 
 // ヘッダ
-$from = "From: info@forest-people.sakura.ne.jp"; 
+$from = "From: Forest People <forest-people@www839.sakura.ne.jp>\r\n";
+$from .= "Reply-To: forest-people@www839.sakura.ne.jp\r\n";
+$from .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
 // $from .= "\nContent-Type: text/plain; charset=UTF-8";
 
 // 送信
-if (mb_send_mail($to, $subject, $message, $from)) {
+if (mb_send_mail($to, $subject, $message, $from, "-fforest-people@www839.sakura.ne.jp")) {
+
     echo "メールを送信しました！";
 } else {
     echo "メールの送信に失敗しました。";
