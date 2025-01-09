@@ -46,7 +46,7 @@ if($pw){
     redirect("index.php");
   } elseif($action === "analysis_result"){
     // 「分析結果確認」ボタン
-    redirect("graph.php");
+    redirect("pie-graph.php");
 }else{
   //Login失敗時(login.phpへ)
   redirect("login.php");
