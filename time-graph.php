@@ -11,7 +11,9 @@
         }
         /* Canvasを1/4に縮小して表示 (transform) */
         #rectangleChart {
-            transform: scale(.25);       /* 1/4 表示に縮小 */
+            display: block;
+            margin: 0 auto; 
+            transform: scale(0.125, 0.25);     /* 1/4 表示に縮小 */
             transform-origin: top left;   /* 左上を基準に拡縮 */
         }
         canvas {
@@ -100,10 +102,10 @@ $rectangleData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // X軸ラベルを描画する関数
 function drawXAxisLabels(ctx, minstarttime, maxendtime, xScale, canvasHeight) {
-    const labelInterval = 100; // ラベルの間隔
+    const labelInterval = 1000; // ラベルの間隔
     const yOffset = canvasHeight - 30; // ラベルのY座標位置（下部）
     ctx.fillStyle = "black";
-    ctx.font = "32px Arial";
+    ctx.font = "48px Arial";
 
     // 開始時間から終了時間まで、100単位ごとにラベルを描画
     for (let x = minstarttime; x <= maxendtime; x += labelInterval) {

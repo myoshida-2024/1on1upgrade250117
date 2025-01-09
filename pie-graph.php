@@ -9,7 +9,7 @@
         .row {
             display: flex;
             justify-content: center; /* 中央寄せ */
-            gap: 20px; /* キャンバス同士の隙間 */
+            gap: 60px; /* キャンバス同士の隙間 */
         }
         /* キャンバスを小さく（例：幅・高さ200px） */
         .chart-canvas {
@@ -186,11 +186,42 @@ if (isset($_GET['quizDone']) && $_GET['quizDone'] == 1) {
     </script>
 
     <!-- iframeで time-graph.php を読み込む -->
+    <!-- タイトルとセンタリングで time-graph 表示 -->
+    <div style="text-align: center; margin-top: 40px;">
+      <h2>
+        <span style="color:red;">あなた</span>
+        と
+        <span style="color:blue;">相手</span>
+        の話した時間、
+        その時間の感情のグラフ<br>
+        <span style="color:orange">エネルギー</span>
+        <span style="color:gray;">ストレス</span>
+        <span style="color:lightblue;">集中</span>
+      </h2>
+      <!-- iframeを中央寄せ -->
     <iframe
          src="time-graph.php"
-         style="width: 100%; height: 600px; border:1px solid #ccc;"
+         style="width: 60%; margin: auto; height: 360px; border:1px solid #ccc;"
         scrolling="auto">
     </iframe>
+    </div>
+
+
+<!-- iframeで advice.php を読み込む -->
+    <!-- タイトルとセンタリングで advice 表示 -->
+    <div style="text-align: center; margin-top: 40px;">
+      <h2>
+        <span style="color:green;">あなたへのアドバイス</span>
+        </h2>
+      <!-- iframeを中央寄せ -->
+    <iframe
+         src="advice.php"
+         style="width: 60%; margin: auto; height: 500px; border:1px solid #ccc;"
+        >
+    </iframe>
+    </div>
+
+
 
     <?php
 } else {
