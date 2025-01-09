@@ -140,22 +140,40 @@ $rectangleData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // データ範囲を取得
         // スケール計算を統一
         const speakerData = <?php echo $speakerData; ?>;
-        const startTime = Math.min(...rectangleData.map(d => d.starttime), ...speakerData.map(d => d.starttime));
-        const endTime = Math.max(...rectangleData.map(d => d.endtime), ...speakerData.map(d => d.endtime));
+        const minstarttime = Math.min(...rectangleData.map(d => d.starttime), ...speakerData.map(d => d.starttime));
+        const maxendtime = Math.max(...rectangleData.map(d => d.endtime), ...speakerData.map(d => d.endtime));
 
         // キャンバス幅を調整
-        const canvasWidth = Math.max(800, endTime - startTime);
+        const canvasWidth = maxendtime - minstarttime;
         canvas.width = canvasWidth;
+        console.log ("canvasWidth", canvasWidth);
 
         // スケール計算
-        const xScale = canvas.width / (endTime - startTime);
+        // const xScale = canvas.width / (maxendtime - starttime);
+        const xScale = 1;
         const yScale = 1000 / 100; // 固定スケール
         const maxCanvasHeight = 1000;
 
+
+// X軸ラベルを描画する関数
+function drawXAxisLabels(ctx, minstarttime, maxendtime, xScale, canvasHeight) {
+    const labelInterval = 100; // ラベルの間隔
+    const yOffset = canvasHeight - 30; // ラベルのY座標位置（下部）
+    ctx.fillStyle = "black";
+    ctx.font = "16px Arial";
+
+    // 開始時間から終了時間まで、100単位ごとにラベルを描画
+    for (let x = minstarttime; x <= maxendtime; x += labelInterval) {
+        const xPosition = (x - minstarttime) * xScale; // ラベルのX座標位置
+        const label = (x / 1000).toFixed(1); // ラベルの値を計算（1000単位）
+        ctx.fillText(label, xPosition, yOffset); // ラベルを描画
+    }
+}
+
 // speaker用四角形を描画する関数
 function drawSpeaker(label, starttime, endtime) {
-    const xStart = (starttime - startTime) * xScale;
-    const xEnd = (endtime - startTime) * xScale;
+    const xStart = (starttime - minstarttime) * xScale;
+    const xEnd = (endtime - minstarttime) * xScale;
     const rectHeight = 20; // 固定高さ
     const yOffset = label === "speaker0" ? 50 : 80; // Y座標のオフセット
 
@@ -186,6 +204,10 @@ function drawSpeaker(label, starttime, endtime) {
                 drawRectangle(rectCtx, starttime, endtime, stress, 'gray', 400);
                 drawRectangle(rectCtx, starttime, endtime, concentration, 'lightblue', 600);
             });
+        
+        // X軸ラベルを描画
+        drawXAxisLabels(rectCtx, minstarttime, maxendtime, xScale, canvas.height);
+
         }
 
         drawGraphs();
