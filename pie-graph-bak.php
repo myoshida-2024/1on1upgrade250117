@@ -86,23 +86,6 @@ include "quiz.php";
 
 // クイズ完了パラメータをチェック
 if (isset($_GET['quizDone']) && $_GET['quizDone'] == 1) {
-    $quizResult = $_GET['quizResult'] ?? "";
-    $speaker0ratio = $_GET['speaker0ratio'] ?? "";
-    $speaker0ratio = round($speaker0ratio, 1); 
-
-    // まずクイズの結果メッセージを表示
-    if ($quizResult === "correct") {
-        echo "<p style='color:green; text-align:center; font-size:18px;'>
-        正解！<br>あなたの話した割合は {$speaker0ratio}% です。
-        <br>1on1 では上司の話す割合は 20～40％ がよいとされています。
-        </p>";
-
-        } elseif ($quizResult === "wrong") {
-            echo "<p style='color:green; text-align:center; font-size:18px;'>
-            はずれ！<br>あなたの話した割合は {$speaker0ratio}% です。<br>
-            1on1 では上司の話す割合は 20～40％ がよいとされています。
-            </p>";
-            }
     // ======= グラフ描画コードをここに =======
     ?>
     <div class="row">
