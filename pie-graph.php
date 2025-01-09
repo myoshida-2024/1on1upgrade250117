@@ -29,6 +29,11 @@
     </style>
 </head>
 <body>
+
+<span style="color:red;">あなた</span>
+<span style="color:blue;">相手</span>
+<span style="color:gray;">沈黙</span>
+
 <?php
 session_start();
 include("funcs.php");
@@ -105,10 +110,36 @@ if (isset($_GET['quizDone']) && $_GET['quizDone'] == 1) {
             }
     // ======= グラフ描画コードをここに =======
     ?>
-    <div class="row">
+    <!-- <div class="row"> -->
         <!-- 2つのCanvasを横並びに -->
+        <!-- <canvas id="chartWithoutGap" class="chart-canvas"></canvas> -->
+        <!-- <canvas id="chartWithGap" class="chart-canvas"></canvas> -->
+    <!-- </div> -->
+     <!-- グラフ2つを横並びに配置 -->
+    <div class="row">
+      <!-- グラフ1: 「あなたと相手の話した時間の割合」 -->
+      <div class="chart-container">
+        <!-- タイトル（ラベル） -->
+        <h3>
+          <span style="color:red;">あなた</span>
+          と
+          <span style="color:blue;">相手</span>
+          の話した時間の割合
+        </h3>
         <canvas id="chartWithoutGap" class="chart-canvas"></canvas>
+      </div>
+      <!-- グラフ2: 「あなたと相手の話した時間と沈黙時間の割合」 -->
+      <div class="chart-container">
+        <h3>
+          <span style="color:red;">あなた</span>
+          と
+          <span style="color:blue;">相手</span>
+          の話した時間と
+          <span style="color:gray;">沈黙</span>
+          の割合
+        </h3>
         <canvas id="chartWithGap" class="chart-canvas"></canvas>
+      </div>
     </div>
 
     <script>
