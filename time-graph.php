@@ -3,21 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>統合グラフ保存</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .chart-container {
             margin-bottom: 50px;
             text-align: center;
         }
+        /* Canvasを1/4に縮小して表示 (transform) */
+        #rectangleChart {
+            transform: scale(.25);       /* 1/4 表示に縮小 */
+            transform-origin: top left;   /* 左上を基準に拡縮 */
+        }
         canvas {
             display: block;
             margin: 0 auto;
             border: 1px solid black;
         }
+        #canvasContainer {
+            width: 800px; /* または画面幅に合わせるなどお好み */
+            height: 300px; /* 縦は適宜 */
+            overflow-x: auto; /* 横スクロールを有効に */
+            overflow-y: hidden; /* 縦スクロール不要なら隠す */
+            border: 1px solid gray; /* 枠線 (オプション) */
+            margin-bottom: 50px; /* 下マージン(オプション) */
+            position: relative; /* transformと組み合わせる場合に必要なことも */
+}
     </style>
 </head>
 <body>
+<div id="canvasContainer">
+    <canvas id="rectangleChart" width="800" height="1000"></canvas>
+</div>
 <?php
 session_start();
 include("funcs.php");
@@ -32,35 +48,6 @@ $speakerResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $speaker0Time = 0;
 $speaker1Time = 0;
 $totalGapTime = 0;
-
-foreach ($speakerResults as $i => $row) {
-    $label = $row['label'];
-    $starttime = (int)$row['starttime'];
-    $endtime = (int)$row['endtime'];
-
-    $duration = $endtime - $starttime;
-    if ($label === "speaker0") {
-        $speaker0Time += $duration;
-    } elseif ($label === "speaker1") {
-        $speaker1Time += $duration;
-    }
-
-    if ($i > 0) {
-        $prevEndTime = $speakerResults[$i - 1]['endtime'];
-        $gap = $starttime - $prevEndTime;
-        if ($gap > 0) {
-            $totalGapTime += $gap;
-        }
-    }
-}
-// セッションにデータを保存
-$_SESSION['speaker0Time'] = $speaker0Time;
-$_SESSION['speaker1Time'] = $speaker1Time;
-$_SESSION['totalGapTime'] = $totalGapTime;
-
-
-// advice.php を呼び出して内容を表示
-include "advice.php";
 
 // 話者分析データベースから情報を取得
 $sql = "SELECT label, starttime, endtime FROM speaker_result";
@@ -80,77 +67,33 @@ $stmt->execute();
 $rectangleData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<h1>統合グラフ保存ページ</h1>
-
-<div class="chart-container">
-    <h2>円グラフ（ギャップを含む）</h2>
-    <canvas id="chartWithGap" width="400" height="400"></canvas>
-    <h2>円グラフ（ギャップを含まない）</h2>
-    <canvas id="chartWithoutGap" width="400" height="400"></canvas>
-</div>
-
-<h2>四角形のグラフ</h2>
-<canvas id="rectangleChart" width="800" height="1000"></canvas>
+<!-- <h2>四角形のグラフ</h2> -->
+<!-- <canvas id="rectangleChart" width="800" height="1000"></canvas> -->
+<!-- ここは内部的に幅800、高さ1000の大きさで描画 -->
+<!-- ただしCSSの transform で表示を1/4に縮小 -->
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const speaker0Time = <?php echo $speaker0Time; ?>;
-        const speaker1Time = <?php echo $speaker1Time; ?>;
-        const totalGapTime = <?php echo $totalGapTime; ?>;
         const rectangleData = <?php echo json_encode($rectangleData); ?>;
+        const speakerData = <?php echo $speakerData; ?>;
 
-        const ctxWithGap = document.getElementById("chartWithGap").getContext("2d");
-        const ctxWithoutGap = document.getElementById("chartWithoutGap").getContext("2d");
         const rectCtx = document.getElementById("rectangleChart").getContext("2d");
         const canvas = document.getElementById("rectangleChart");
-    
-
-        // 円グラフ描画
-        let myPieChartWithGap = new Chart(ctxWithGap, {
-            type: "pie",
-            data: {
-                labels: ["Speaker 0", "Speaker 1", "Silence"],
-                datasets: [{
-                    backgroundColor: ["red", "blue", "lightgray"],
-                    data: [speaker0Time, speaker1Time, totalGapTime],
-                }],
-            },
-            options: {
-                responsive: false,
-                animation: { duration: 0 },
-            },
-        });
-
-        let myPieChartWithoutGap = new Chart(ctxWithoutGap, {
-            type: "pie",
-            data: {
-                labels: ["Speaker 0", "Speaker 1"],
-                datasets: [{
-                    backgroundColor: ["red", "blue"],
-                    data: [speaker0Time, speaker1Time],
-                }],
-            },
-            options: {
-                responsive: false,
-                animation: { duration: 0 },
-            },
-        });
-
+           
         // 四角形グラフ描画
         // データ範囲を取得
         // スケール計算を統一
-        const speakerData = <?php echo $speakerData; ?>;
         const minstarttime = Math.min(...rectangleData.map(d => d.starttime), ...speakerData.map(d => d.starttime));
         const maxendtime = Math.max(...rectangleData.map(d => d.endtime), ...speakerData.map(d => d.endtime));
 
-        // キャンバス幅を調整
+        // キャンバス幅を調整(内部座標は大きいまま)
         const canvasWidth = maxendtime - minstarttime;
         canvas.width = canvasWidth;
         console.log ("canvasWidth", canvasWidth);
 
         // スケール計算
         // const xScale = canvas.width / (maxendtime - starttime);
-        const xScale = 1;
+        const xScale = 1;  // ここでは1のまま (内部的に大きい)
         const yScale = 1000 / 100; // 固定スケール
         const maxCanvasHeight = 1000;
 
@@ -160,7 +103,7 @@ function drawXAxisLabels(ctx, minstarttime, maxendtime, xScale, canvasHeight) {
     const labelInterval = 100; // ラベルの間隔
     const yOffset = canvasHeight - 30; // ラベルのY座標位置（下部）
     ctx.fillStyle = "black";
-    ctx.font = "16px Arial";
+    ctx.font = "32px Arial";
 
     // 開始時間から終了時間まで、100単位ごとにラベルを描画
     for (let x = minstarttime; x <= maxendtime; x += labelInterval) {
@@ -212,26 +155,6 @@ function drawSpeaker(label, starttime, endtime) {
 
         drawGraphs();
 
-        // 画像として保存する関数
-        function saveCanvasAsImage(canvasId, filename) {
-            const canvas = document.getElementById(canvasId);
-            const imageData = canvas.toDataURL("image/png");
-            fetch("save_image.php", {
-                method: "POST",
-                body: JSON.stringify({ image: imageData, filename }),
-                headers: { "Content-Type": "application/json" },
-            })
-            .then((response) => response.text())
-            .then((data) => console.log(data))
-            .catch((error) => console.error("エラー:", error));
-        }
-
-        // 円グラフ2つを1つの画像に保存
-        saveCanvasAsImage("chartWithGap", "img/pie_chart_with_gap.png");
-        saveCanvasAsImage("chartWithoutGap", "img/pie_chart_without_gap.png");
-
-        // 四角形グラフを1つの画像に保存
-        saveCanvasAsImage("rectangleChart", "img/rectangle_chart.png");
     });
 </script>
 </body>

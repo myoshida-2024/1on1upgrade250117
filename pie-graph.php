@@ -153,6 +153,14 @@ if (isset($_GET['quizDone']) && $_GET['quizDone'] == 1) {
             });
         });
     </script>
+
+    <!-- iframeで time-graph.php を読み込む -->
+    <iframe
+         src="time-graph.php"
+         style="width: 100%; height: 600px; border:1px solid #ccc;"
+        scrolling="auto">
+    </iframe>
+
     <?php
 } else {
     // クイズが完了していない場合の表示など
