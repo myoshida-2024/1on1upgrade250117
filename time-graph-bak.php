@@ -13,8 +13,8 @@
         #rectangleChart {
             display: block;
             margin: 0 auto; 
-            /* transform: scale(1,1); */
-            transform: scale(0.5,0.25);  /*1/4 表示に縮小 */
+            /* transform: scale(0.125, 0.25);     1/4 表示に縮小 */
+            transform: scale(1,0.25);  /* 1/4 表示に縮小 */
             transform-origin: top left;   /* 左上を基準に拡縮 */
         }
         canvas {
@@ -23,7 +23,7 @@
             border: 1px solid black;
         }
         #canvasContainer {
-            width: 800px; /* または画面幅に合わせるなどお好み */
+            width: 1600px; /*または画面幅に合わせるなどお好み */
             height: 300px; /* 縦は適宜 */
             overflow-x: auto; /* 横スクロールを有効に */
             overflow-y: hidden; /* 縦スクロール不要なら隠す */
@@ -96,8 +96,8 @@ $rectangleData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // スケール計算
         // const xScale = canvas.width / (maxendtime - starttime);
-        const xScale = 0.25;  // ここでは1のまま (内部的に大きい)
-        const yScale = 10; // 固定スケール
+        const xScale = 1;  // ここでは1のまま (内部的に大きい)
+        const yScale = 1000 / 100; // 固定スケール
         const maxCanvasHeight = 1000;
 
 
@@ -106,7 +106,7 @@ function drawXAxisLabels(ctx, minstarttime, maxendtime, xScale, canvasHeight) {
     const labelInterval = 1000; // ラベルの間隔
     const yOffset = canvasHeight - 30; // ラベルのY座標位置（下部）
     ctx.fillStyle = "black";
-    ctx.font = "24px Arial";
+    ctx.font = "48px Arial";
 
     // 開始時間から終了時間まで、100単位ごとにラベルを描画
     for (let x = minstarttime; x <= maxendtime; x += labelInterval) {

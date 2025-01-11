@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-// $to = $_SESSION["lid"];
-$to = 'gglyoshida17@gmail.com';
+$to = $_SESSION["lid"];
+
 echo "宛先アドレス". $to;
 
 use PHPMailer\PHPMailer\PHPMailer;
