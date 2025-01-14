@@ -105,6 +105,27 @@ if ($status_update == false) {
     redirect("index.php");
   } elseif($action === "analysis_result"){
     // 「分析結果確認」ボタン
+
+// gs_user_tableから lid が一致するレコードを取得
+$sql_get_1on1 = "SELECT id_1on1 FROM gs_user_table WHERE lid = :lid LIMIT 1";
+$stmt_get_1on1 = $pdo->prepare($sql_get_1on1);
+$stmt_get_1on1->bindValue(':lid', $lid, PDO::PARAM_STR);
+$status_get_1on1 = $stmt_get_1on1->execute();
+
+if($status_get_1on1 == false) {
+    sql_error($stmt_get_1on1);
+}
+
+// 取得した行をfetch
+$row_1on1 = $stmt_get_1on1->fetch(PDO::FETCH_ASSOC);
+if(!$row_1on1){
+    exit("No user row found for this lid!");
+}
+
+// セッションに書き込む
+$_SESSION["new1on1_id"] = $row_1on1["id_1on1"];
+
+
     redirect("pie-graph.php");
 }else{
   //Login失敗時(login.phpへ)

@@ -36,12 +36,17 @@
 
 <?php
 session_start();
+$id_1on1 = $_SESSION["new1on1_id"] ;
 include("funcs.php");
 $pdo = db_conn();
 
 // speakerデータ取得
-$sql = "SELECT label, starttime, endtime FROM speaker_result";
+$sql = "SELECT label, starttime, endtime 
+       FROM speaker_result WHERE id_1on1 = :id_1on1";
 $stmt = $pdo->prepare($sql);
+// ここでパラメータを紐づける
+$stmt->bindValue(':id_1on1', $id_1on1, PDO::PARAM_INT);
+
 $stmt->execute();
 $speakerResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -75,8 +80,12 @@ $_SESSION['speaker1Time'] = $speaker1Time;
 $_SESSION['totalGapTime'] = $totalGapTime;
 
 // 話者分析データベースから情報を取得
-$sql = "SELECT label, starttime, endtime FROM speaker_result";
+$sql = "SELECT label, starttime, endtime 
+       FROM speaker_result WHERE id_1on1 = :id_1on1";
 $stmt = $pdo->prepare($sql);
+// ここでパラメータを紐づける
+$stmt->bindValue(':id_1on1', $id_1on1, PDO::PARAM_INT);
+
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
