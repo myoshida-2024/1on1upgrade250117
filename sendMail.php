@@ -44,8 +44,11 @@ try {
     // メール内容
     $mail->isHTML(true);
     $mail->Subject = '1on1分析結果のお知らせ';
-    $mail->Body = '<p>1on1分析の結果が出ました。</p>';
- 
+    
+    $mail->Body = '<p>1on1分析の結果が出ました。<br>
+<a href="https://forest-people.sakura.ne.jp/1on1upgrade/login.php">
+こちらのリンク</a>からログインしてください。</p>';
+
 // メールフォームの送信処理
 if (!$userPHPMailer) {
     // デフォルトmail関数で送る例
