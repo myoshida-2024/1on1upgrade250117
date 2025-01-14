@@ -419,7 +419,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                             result.tokens.forEach(token => {
                             const { label, starttime, endtime } = token;
                                                    
-                            sendData(label,starttime, endtime);
+                            // sendData(label,starttime, endtime);
                              // 新しく追加 sendData() を呼び出して「Promise」を返すようにして配列にpush
                             promises.push(sendData(label, starttime, endtime));
         
@@ -435,7 +435,7 @@ $appKey = $_ENV['APPKEY'] ?? '';
                     
                             const { starttime, endtime, energy, stress, concentration } = segments;
                         
-                            sendSentData(starttime, endtime, energy, stress, concentration);
+                            // sendSentData(starttime, endtime, energy, stress, concentration);
                              // 新しく追加 sendSentData() を呼び出して「Promise」を返すようにして配列にpush
                             promises.push(sendSentData(starttime, endtime, energy, stress, concentration));
   

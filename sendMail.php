@@ -43,13 +43,13 @@ try {
 
     // メール内容
     $mail->isHTML(true);
-    $mail->Subject = 'テストメール';
-    $mail->Body = '<p>これはテストメールです。</p>';
+    $mail->Subject = '1on1分析結果のお知らせ';
+    $mail->Body = '<p>1on1分析の結果が出ました。</p>';
  
 // メールフォームの送信処理
 if (!$userPHPMailer) {
     // デフォルトmail関数で送る例
-    mail($to, 'テストメール', 'これはテストメールです。', "From: info@forest-people.sakura.ne.jp");
+    mail($to, '1on1分析結果のお知らせ', '1on1分析結果がでました。https://forest-people.sakura.ne.jp/1on1upgrade/login.phpにアクセスしてください。', "From: info@forest-people.sakura.ne.jp");
     // mail($to, $subject, $message, $header); // デフォルトの送信方法
     echo "mail()関数で送信しました";
 } else {
