@@ -70,6 +70,7 @@ $pw = password_verify($lpw, $val["lpw"]); //$lpw = password_hash($lpw, PASSWORD_
 if($pw){ 
   //Login成功時
   $_SESSION["chk_ssid"]  = session_id();
+  $_SESSION["new1on1_id"] = $new_val;
   $_SESSION["kanri_flg"] = $val['kanri_flg'];
   // $_SESSION["username"]  = $val['username'];
   $_SESSION["username"]  = $username;

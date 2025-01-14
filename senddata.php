@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$id_1on1 = $_SESSION["new1on1_id"] ;
+
 // JSONレスポンスのContent-Type設定
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -23,9 +25,10 @@ if (isset($_POST['label'], $_POST['starttime'], $_POST['endtime'])) {
     $pdo = db_conn();
 
     // データ登録SQL
-    $sql = "INSERT INTO speaker_result (id, label, starttime, endtime) 
-            VALUES (NULL, :label, :starttime, :endtime)";
+    $sql = "INSERT INTO speaker_result (id_1on1, id, label, starttime, endtime) 
+            VALUES (:id_1on1, NULL, :label, :starttime, :endtime)";
     $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':id_1on1', $id_1on1, PDO::PARAM_INT);
     $stmt->bindValue(':label', $label, PDO::PARAM_STR);
     $stmt->bindValue(':starttime', $starttime, PDO::PARAM_INT);
     $stmt->bindValue(':endtime', $endtime, PDO::PARAM_INT);
