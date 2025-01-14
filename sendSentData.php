@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+$id_1on1 = $_SESSION["new1on1_id"] ;
+
 // エラーレポートの設定
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -22,9 +24,10 @@ if (isset($_POST['starttime'], $_POST['endtime'], $_POST['energy'], $_POST['stre
     $pdo = db_conn();
 
     // データ登録SQL
-    $sql = "INSERT INTO sentiment_result (id, starttime, endtime, energy, stress, concentration ) 
-            VALUES (NULL, :starttime, :endtime , :energy, :stress, :concentration)";
+    $sql = "INSERT INTO sentiment_result (id_1on1, id, starttime, endtime, energy, stress, concentration ) 
+            VALUES (:id_1on1, NULL, :starttime, :endtime , :energy, :stress, :concentration)";
     $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':id_1on1', $id_1on1, PDO::PARAM_INT);
     $stmt->bindValue(':starttime', $starttime, PDO::PARAM_INT);
     $stmt->bindValue(':endtime', $endtime, PDO::PARAM_INT);
     $stmt->bindValue(':energy', $energy, PDO::PARAM_INT);

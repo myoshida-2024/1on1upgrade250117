@@ -20,32 +20,7 @@ if ($status_select == false) {
     sql_error($stmt_select); // funcs.php 側のエラー処理関数
 }
 
-// fetch して1行目を取得
-$record = $stmt_select->fetch(PDO::FETCH_ASSOC);
-if (!$record) {
-    exit("No row found in 1on1_record (table is empty?)");
-}
 
-// 例: newest_1on1_id に +1
-$new_val = $record["newest_1on1_id"] + 1;
-
-// 同じ行の id を使って UPDATE
-$id = $record["id"];
-
-// 3) UPDATE
-$sql_update = "UPDATE 1on1_record 
-               SET newest_1on1_id = :new_val
-               WHERE id = :id";
-$stmt_update = $pdo->prepare($sql_update);
-$stmt_update->bindValue(':new_val', $new_val, PDO::PARAM_INT);
-$stmt_update->bindValue(':id', $id, PDO::PARAM_INT);
-$status_update = $stmt_update->execute();
-
-if ($status_update == false) {
-    sql_error($stmt_update);
-} else {
-    echo "newest_1on1_id updated successfully: $new_val";
-}
 
 
 //2. データ登録SQL作成
@@ -69,17 +44,64 @@ $val = $stmt->fetch();         //1レコードだけ取得する方法
 $pw = password_verify($lpw, $val["lpw"]); //$lpw = password_hash($lpw, PASSWORD_DEFAULT);   //パスワードハッシュ化
 if($pw){ 
   //Login成功時
+
+
+  // ======================================= id_1on1
+// fetch して1行目を取得
+$record = $stmt_select->fetch(PDO::FETCH_ASSOC);
+if (!$record) {
+    exit("No row found in 1on1_record (table is empty?)");
+}
+// 例: newest_1on1_id に +1
+$new_val = $record["newest_1on1_id"] + 1;
+
+// 同じ行の id を使って UPDATE
+$id = $record["id"];
+
+// 3) UPDATE
+$sql_update = "UPDATE 1on1_record 
+               SET newest_1on1_id = :new_val
+               WHERE id = :id";
+$stmt_update = $pdo->prepare($sql_update);
+$stmt_update->bindValue(':new_val', $new_val, PDO::PARAM_INT);
+$stmt_update->bindValue(':id', $id, PDO::PARAM_INT);
+$status_update = $stmt_update->execute();
+
+if ($status_update == false) {
+    sql_error($stmt_update);
+} else {
+    echo "newest_1on1_id updated successfully: $new_val";
+}
+// =======================================
+
   $_SESSION["chk_ssid"]  = session_id();
   $_SESSION["new1on1_id"] = $new_val;
   $_SESSION["kanri_flg"] = $val['kanri_flg'];
-  // $_SESSION["username"]  = $val['username'];
-  $_SESSION["username"]  = $username;
+  $_SESSION["username"]  = $val['username'];
+
   // $_SESSION["lid"]  = $val['lid'];
   $_SESSION["lid"] = $lid; // メールアドレスをセッションに保存
   //Login成功時（select.phpへ）
   // ボタンの値でリダイレクト先を振り分け
   if($action === "analysis_start"){
     // 「分析開始」ボタン
+
+
+  $sql = "UPDATE gs_user_table 
+  SET id_1on1 = :new_val
+    WHERE lid = :lid";   // ここで同じlidの行を更新
+  $stmt = $pdo->prepare($sql);
+  // :new_val → newest_1on1_id + 1 した値
+  $stmt->bindValue(':new_val', $new_val, PDO::PARAM_INT);
+  // :lid → ログインID（メールアドレス）
+  $stmt->bindValue(':lid', $lid, PDO::PARAM_STR);
+
+  $status_user_update = $stmt->execute();
+  if($status_user_update == false){
+    sql_error($stmt); // エラー時にはfuncs.phpのsql_error()を呼ぶ
+  }
+
+
     redirect("index.php");
   } elseif($action === "analysis_result"){
     // 「分析結果確認」ボタン
