@@ -7,10 +7,10 @@ function h($str){
 //DB接続
 function db_conn(){
   try {
-    $db_name = 'forest-people_gs_1on1';
-    $db_host = 'mysql3101.db.sakura.ne.jp';
-    $db_id = 'forest-people';
-    $db_pw = 'dbmy1010';
+    $db_name = '1on1';
+    $db_host = 'localhost';
+    $db_id = 'root';
+    $db_pw = '';
       return new PDO('mysql:dbname='.$db_name.';charset=utf8;host='.$db_host, $db_id, $db_pw);
   } catch (PDOException $e) {
     exit('DB Connection Error:'.$e->getMessage());

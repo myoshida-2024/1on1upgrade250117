@@ -150,8 +150,10 @@ $appKey = $_ENV['APPKEY'] ?? '';
             <!-- <button id="executeAsyncButton">1 on 1分析開始</button><br> -->
             
             <button id="executeAsyncButton">1 on 1分析開始</button><br>
-            <p id="message" style="display: none; color: green;">結果のメールをお待ちください。</p>
-            
+            <p id="message" style="display: none; color: green; font-size: 32px;">
+                結果のメールをお待ちください。<br>
+                このタブは閉じてOKです。</p>
+
             <script>
               // ボタンを取得
             const button = document.getElementById('executeAsyncButton');
