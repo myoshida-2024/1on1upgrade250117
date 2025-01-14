@@ -1,52 +1,16 @@
 <?php
+//最初にSESSIONを開始！！ココ大事！！
 session_start();
+// echo "login_act セッションID: " . session_id();
 
 //POST値
 $lid = $_POST["lid"]; //lid
 $lpw = $_POST["lpw"]; //lpw
 $action = $_POST['action'];
 
-// 1) DB接続
+//1.  DB接続します
 include("funcs.php");
 $pdo = db_conn();
-
-// 2) 1行目を取得
-//    - テーブルに1行しかないなら "LIMIT 1" で十分
-$sql_select = "SELECT id, newest_1on1_id FROM 1on1_record LIMIT 1";
-$stmt_select = $pdo->prepare($sql_select);
-$status_select = $stmt_select->execute();
-
-if ($status_select == false) {
-    sql_error($stmt_select); // funcs.php 側のエラー処理関数
-}
-
-// fetch して1行目を取得
-$record = $stmt_select->fetch(PDO::FETCH_ASSOC);
-if (!$record) {
-    exit("No row found in 1on1_record (table is empty?)");
-}
-
-// 例: newest_1on1_id に +1
-$new_val = $record["newest_1on1_id"] + 1;
-
-// 同じ行の id を使って UPDATE
-$id = $record["id"];
-
-// 3) UPDATE
-$sql_update = "UPDATE 1on1_record 
-               SET newest_1on1_id = :new_val
-               WHERE id = :id";
-$stmt_update = $pdo->prepare($sql_update);
-$stmt_update->bindValue(':new_val', $new_val, PDO::PARAM_INT);
-$stmt_update->bindValue(':id', $id, PDO::PARAM_INT);
-$status_update = $stmt_update->execute();
-
-if ($status_update == false) {
-    sql_error($stmt_update);
-} else {
-    echo "newest_1on1_id updated successfully: $new_val";
-}
-
 
 //2. データ登録SQL作成
 //* PasswordがHash化→条件はlidのみ！！
@@ -93,3 +57,6 @@ if($pw){
    redirect("login.php");
 }
 exit();
+
+?>
+

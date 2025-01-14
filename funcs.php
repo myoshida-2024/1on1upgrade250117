@@ -7,7 +7,8 @@ function h($str){
 //DB接続
 function db_conn(){
   try {
-    $db_name = 'gs_1on1';
+    // $db_name = 'gs_1on1';
+    $db_name = '1on1';
     $db_host = 'localhost';
     $db_id = 'root';
     $db_pw = '';
