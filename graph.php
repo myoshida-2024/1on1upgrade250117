@@ -23,8 +23,12 @@ session_start();
 include("funcs.php");
 $pdo = db_conn();
 
+$new1on1_id = $_POST["new1on1_id"]; 
+
 // speakerデータ取得
-$sql = "SELECT label, starttime, endtime FROM speaker_result";
+// $sql = "SELECT label, starttime, endtime FROM speaker_result";
+$sql = "SELECT label, starttime, endtime FROM speaker_result WHERE new1on1_id = $new1on1_id";
+
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $speakerResults = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -63,7 +67,7 @@ $_SESSION['totalGapTime'] = $totalGapTime;
 include "advice.php";
 
 // 話者分析データベースから情報を取得
-$sql = "SELECT label, starttime, endtime FROM speaker_result";
+$sql = "SELECT label, starttime, endtime FROM speaker_result WHERE new1on1_id = $new1on1_id";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -74,7 +78,7 @@ if (!$speakerData) {
 die("JSONエンコードエラー: " . json_last_error_msg());
 }  
 // 四角形グラフ用データ取得
-$sql = "SELECT starttime, endtime, energy, stress, concentration FROM sentiment_result";
+$sql = "SELECT starttime, endtime, energy, stress, concentration FROM sentiment_result WHERE new1on1_id = $new1on1_id";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $rectangleData = $stmt->fetchAll(PDO::FETCH_ASSOC);
